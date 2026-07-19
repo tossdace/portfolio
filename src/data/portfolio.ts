@@ -79,7 +79,7 @@ export const projects: Project[] = [
     title: "Zeno5 Emulator",
     eyebrow: "Flagship build",
     status: "In development",
-    image: "/assets/zeno5-emulator.png",
+    image: "/assets/zeno5.png",
     summary:
       "A long-term emulator project that combines systems research, asset pipeline experiments, and reverse engineering practice into a serious learning build.",
     impact:
