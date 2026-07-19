@@ -730,10 +730,30 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
         <div className="mt-5 flex flex-wrap gap-3">
           <Button asChild variant="secondary" size="sm">
-            <Link href={`/projects/${project.slug}`}>
-              Case Study
-              <ChevronRight className="size-4" aria-hidden="true" />
-            </Link>
+            {project.slug === "zeno5-emulator" ? (
+              <a
+                href="https://github.com/tossdace/Zeno5"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Case Study
+                <ChevronRight className="size-4" aria-hidden="true" />
+              </a>
+            ) : project.slug === "hirevoy" ? (
+              <a
+                href="https://hirevoy.vercel.app/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Case Study
+                <ChevronRight className="size-4" aria-hidden="true" />
+              </a>
+            ) : (
+              <Link href={`/projects/${project.slug}`}>
+                Case Study
+                <ChevronRight className="size-4" aria-hidden="true" />
+              </Link>
+            )}
           </Button>
           {project.links.map((link) => (
             <ActionLink key={link.label} link={link} />
