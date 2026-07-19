@@ -33,10 +33,10 @@ export type Project = {
 };
 
 export const site = {
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dhyanajay.dev",
-  title: "Dhyan Ajay | Interactive Portfolio",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dhyanajay.vercel.app",
+  title: "Dhyan Ajay | Portfolio",
   description:
-    "Dhyan Ajay is a computer science student, founder of Hirevoy, and builder of Zeno5 Emulator.",
+    "Am Dhyan Ajay just computer science student, founder of Hirevoy, and builder of Zeno5 Emulator.",
 };
 
 export const profile = {
@@ -44,7 +44,7 @@ export const profile = {
   age: 19,
   role: "Computer Science Student",
   headline:
-    "I build sharp web experiences, founder-led products, and systems experiments that turn curiosity into usable software.",
+    "I build everthing that comes to my mind , and systems experiments that turn curiosity into usable software.",
   shortPitch:
     "A builder for clients who want more than a template: polished interfaces, careful implementation, and product thinking from the first screen.",
   founderOf: "Hirevoy",
@@ -52,15 +52,15 @@ export const profile = {
   currentQuest: "Turn experimental ideas into polished, testable products",
   currentLearning: ["Asset ripping", "Reverse engineering"],
   hobby: "Chess",
-  chessRating: "2029",
+  chessRating: "2029 elo (Chess.com)",
   chessPlatform: "Chess.com",
   personality: ["Curious", "Builder", "Problem Solver", "Always Learning"],
   contact: {
-    email: "",
-    github: "",
-    linkedin: "",
-    chess: "",
-    resume: "",
+    email: "dhyan102006@gmail.com",
+    github: "https://github.com/tossdace",
+    linkedin: "https://www.linkedin.com/in/dhyan-ajay/",
+    chess: "https://www.chess.com/member/dhyan-ajay",
+    resume: "dm",
   },
 };
 

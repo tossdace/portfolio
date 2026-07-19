@@ -451,7 +451,7 @@ function Hero() {
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-200/30 bg-cyan-200/10 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.28em] text-cyan-100"
           >
             <Sparkles className="size-4" aria-hidden="true" />
-            Available for selected freelance builds
+            Building real products, not pitch decks
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -467,7 +467,7 @@ function Hero() {
             transition={{ delay: 0.15, duration: 0.9, ease: "easeOut" }}
             className="mt-6 max-w-3xl text-base leading-8 text-white/78 sm:text-lg"
           >
-            {profile.headline}
+            I'm a 19-year-old CS student and founder of Hirevoy. Right now I'm building the Zeno5 Emulator while learning reverse engineering and asset ripping. I ship things that work, I win tech fests, and I keep improving through real projects and deeper systems work.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -540,7 +540,7 @@ function PlayerProfile({ unlocks }: { unlocks: string[] }) {
     <MotionSection
       id="profile"
       eyebrow="Player profile"
-      title="A builder profile recruiters can scan and clients can trust."
+      title="NOTHING Much Just About Me."
       copy={profile.shortPitch}
     >
       <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
@@ -575,22 +575,48 @@ function PlayerProfile({ unlocks }: { unlocks: string[] }) {
           <ProfileTile
             icon={<Code2 />}
             title="Developer"
-            text="Frontend craft, product logic, accessibility, and performance-minded implementation."
+            text="If it sounds interesting, I make sure there is a lot of work on my GitHub, and I learn something new with every project."
           />
           <ProfileTile
             icon={<Briefcase />}
             title="Founder"
-            text="Hirevoy gives the portfolio a product lens: problem, audience, roadmap, and execution."
+            text={
+              <>
+                Hirevoy is a local guide hiring app I built{' '}
+                <a
+                  href="https://hirevoy.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyan-100 hover:text-white"
+                >
+                  here
+                </a>
+                .
+              </>
+            }
           />
           <ProfileTile
             icon={<Brain />}
             title="Problem Solver"
-            text="The strongest through-line is not one stack. It is the habit of turning unclear problems into workable systems."
+            text="i have patience stay in from of screen untill am satisfied :)"
           />
           <ProfileTile
             icon={<Trophy />}
             title="Chess Player"
-            text={`${profile.chessRating} on ${profile.chessPlatform}. Pattern recognition, calculation, and blunder checks transfer directly into code.`}
+            text={
+              <>
+                I have a chess rating of 2029 on Chess.com. Challenge me{' '}
+                <a
+                  href="https://www.chess.com/member/dhyan-ajay"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyan-100 hover:text-white"
+                >
+                  here or my username is dhyan-ajay
+                </a>
+                .
+              </>
+            }
           />
           <div className="rounded-lg border border-white/12 bg-[#070c12]/74 p-5 md:col-span-2">
             <div className="flex items-center gap-3">
@@ -622,7 +648,7 @@ function PlayerProfile({ unlocks }: { unlocks: string[] }) {
   );
 }
 
-function ProfileTile({ icon, title, text }: { icon: ReactNode; title: string; text: string }) {
+function ProfileTile({ icon, title, text }: { icon: ReactNode; title: string; text: ReactNode }) {
   return (
     <article className="rounded-lg border border-white/12 bg-white/[0.045] p-5 transition hover:border-cyan-200/28 hover:bg-white/[0.07]">
       <span className="grid size-10 place-items-center rounded-md border border-cyan-200/22 bg-cyan-200/8 text-cyan-100 [&_svg]:size-5">
@@ -640,7 +666,7 @@ function FeaturedProjects() {
       id="projects"
       eyebrow="Featured projects"
       title="The work is presented as case studies, not thumbnails."
-      copy="Every project card makes a hiring argument: what problem it represents, what was hard, what changed, and what is next."
+      copy="go look all my  projects or u can find it in my github (tossdace) ."
       className="bg-[#070a10]"
     >
       <motion.div
@@ -726,8 +752,8 @@ function Skills() {
     <MotionSection
       id="skills"
       eyebrow="Skill inventory"
-      title="No fake percentages. Just the tool clusters that support the current mission."
-      copy="The stack is organized by how Dhyan builds: interface craft, product logic, systems curiosity, and learning velocity."
+      title="No fake percentages. i have certifictes ,pinky promise i am not lying here."
+      copy="The stack is organized ME : interface craft, product logic, systems curiosity, and learning velocity."
     >
       <motion.div
         variants={revealVariants}
@@ -799,7 +825,7 @@ function InteractiveTimeline() {
       id="timeline"
       eyebrow="Timeline"
       title="Milestones that explain momentum."
-      copy="Awards, founder work, and current technical focus are organized as a career path, not a loose list."
+      copy=" MY notable achievements and Awards."
       className="bg-[#070a10]"
     >
       <motion.div
@@ -876,7 +902,7 @@ function ZenoSection() {
       project={ZENO}
       icon={<Cpu />}
       title="Zeno5 gets the flagship treatment."
-      copy="The page borrows the clarity of a premium game product page: hero art, status, architecture notes, devlogs, roadmap, and future gallery slots."
+      copy="MY Bisgest project."
       accent="cyan"
     />
   );
@@ -888,8 +914,8 @@ function HirevoySection() {
       id="hirevoy"
       project={HIREVOY}
       icon={<Network />}
-      title="Hirevoy is framed as a founder journey."
-      copy="The startup page is designed around problem clarity, mission, vision, current progress, and roadmap instead of vague founder hype."
+      title="Hirevoy my fist Startup."
+      copy="The reason i learned web development vite Js etc ."
       accent="amber"
       flip
     />
