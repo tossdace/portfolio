@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, ExternalLink, Rocket, ScrollText } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, ExternalLink, FileText, Rocket, ScrollText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { projects, site, type Project } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
@@ -106,6 +106,7 @@ export default function ProjectPage({ params }: PageProps) {
           <div className="space-y-6">
             <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#071116]/80 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.2)]">
               <div className="relative aspect-[16/9] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#02080f]">
+              {project.image ? (
                 <Image
                   src={project.image}
                   alt={`${project.title} showcase`}
@@ -113,8 +114,16 @@ export default function ProjectPage({ params }: PageProps) {
                   sizes="(min-width: 1280px) 60vw, 100vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_30%)]" />
-              </div>
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center gap-4 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white/80 px-8 text-center">
+                  <FileText className="size-14 text-cyan-200" />
+                  <p className="max-w-lg text-sm leading-7 text-white/70">
+                    No visual available for this project yet. View the GitHub repository for the full details.
+                  </p>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_30%)]" />
+            </div>
             </div>
 
             <section className="rounded-[2rem] border border-white/10 bg-[#071116]/80 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.15)]">

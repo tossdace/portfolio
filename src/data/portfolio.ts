@@ -9,7 +9,9 @@ export type Project = {
   title: string;
   eyebrow: string;
   status: string;
-  image: string;
+  category?: string;
+  image?: string;
+  repo?: string;
   summary: string;
   impact: string;
   techStack: string[];
@@ -80,6 +82,7 @@ export const projects: Project[] = [
     eyebrow: "Flagship build",
     status: "In development",
     image: "/assets/zeno5.png",
+    repo: "https://github.com/tossdace/Zeno5",
     summary:
       "A long-term emulator project that combines systems research, asset pipeline experiments, and reverse engineering practice into a serious learning build.",
     impact:
@@ -93,8 +96,8 @@ export const projects: Project[] = [
     ],
     links: [
       {
-        label: "Source",
-        disabledReason: "Add the repository URL when the code is ready to share.",
+        label: "GitHub",
+        href: "https://github.com/tossdace/Zeno5",
       },
       {
         label: "Live demo",
@@ -239,6 +242,164 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "sign-language-gloves",
+    title: "Sign Language Gloves",
+    eyebrow: "Hardware + AI",
+    status: "Completed / Prototype",
+    category: "Hardware + AI",
+    repo: "https://github.com/tossdace/Sign-language-gloves-",
+    summary:
+      "An AI-powered smart glove that recognizes sign language using sensors and machine learning to improve communication for hearing and speech impaired users.",
+    impact:
+      "The project showcases embedded AI that bridges hardware design, sensor fusion, and accessibility-driven product thinking.",
+    techStack: [
+      "Arduino",
+      "Python",
+      "Machine Learning",
+      "Embedded Systems",
+      "IoT",
+    ],
+    image: undefined,
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/tossdace/Sign-language-gloves-",
+      },
+      {
+        label: "Case Study",
+        href: "/projects/sign-language-gloves",
+      },
+    ],
+    challenges: [
+      "Mapping gesture sensor input into reliable sign recognition.",
+      "Delivering on-device inference for embedded hardware.",
+      "Designing a wearable interface that feels natural and intuitive.",
+    ],
+    solutions: [
+      "Built a sensor glove prototype with Arduino for real-time gesture capture.",
+      "Trained a lightweight sign recognition model in Python and integrated it into the hardware flow.",
+      "Focused on accessibility-first interaction design and robust error handling.",
+    ],
+    lessons: [
+      "Hardware projects benefit from early prototyping and data-driven model validation.",
+      "Machine learning on edge devices requires careful resource planning.",
+      "Accessibility is stronger when technology adapts to people, not the other way around.",
+    ],
+    timeline: [
+      "Prototype sensors and gesture mapping.",
+      "Train an initial sign recognition model.",
+      "Integrate the ML pipeline with the glove hardware.",
+    ],
+    future: [
+      "Refine gesture accuracy with more training data.",
+      "Add support for additional sign languages.",
+      "Create a polished wearable enclosure and user flow.",
+    ],
+    caseStudy: {
+      problem:
+        "Communication barriers remain a major accessibility challenge for the hearing and speech impaired, especially in everyday situations.",
+      research:
+        "The research focused on gesture detection, sensor placement, lightweight model selection, and real-time embedded inference.",
+      planning:
+        "The project was framed as a hardware-plus-AI prototype with an emphasis on usable glove mechanics and consistent sign recognition.",
+      architecture:
+        "The system is built with a sensor layer, an embedded processing layer, and a machine learning inference layer that maps gestures to digital responses.",
+      development:
+        "Development combined Arduino hardware design, Python-based model workflow, and iterative testing with real sign sequences.",
+      challenges: [
+        "Handling noisy sensor readings.",
+        "Keeping the model small enough for on-device execution.",
+        "Translating real gestures into reliable predictions.",
+      ],
+      results:
+        "The prototype demonstrates a working path from glove input to sign recognition, making the idea tangible and ready for refinement.",
+      improvements: [
+        "Improve sensor calibration and gesture coverage.",
+        "Add a more polished wearable enclosure.",
+        "Collect user feedback from actual sign language users.",
+      ],
+    },
+  },
+  {
+    slug: "project-yukino",
+    title: "Project Yukino",
+    eyebrow: "AI Assistant",
+    status: "In development",
+    category: "AI Assistant",
+    repo: "https://github.com/tossdace/project_yukino",
+    summary:
+      "A desktop AI assistant built for voice interaction, automation, and local AI capabilities using modern AI tooling.",
+    impact:
+      "The project explores personal productivity through voice-driven workflows and automation powered by local AI models.",
+    techStack: [
+      "Python",
+      "Whisper",
+      "LLMs",
+      "TTS",
+      "Automation",
+    ],
+    image: undefined,
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/tossdace/project_yukino",
+      },
+      {
+        label: "Case Study",
+        href: "/projects/project-yukino",
+      },
+    ],
+    challenges: [
+      "Combining reliable voice recognition with local AI flows.",
+      "Keeping the assistant responsive while respecting privacy.",
+      "Designing natural conversational automation patterns.",
+    ],
+    solutions: [
+      "Built voice input with Whisper and local LLM orchestration.",
+      "Added text-to-speech feedback and task automation hooks.",
+      "Designed the assistant around modular voice commands and local execution.",
+    ],
+    lessons: [
+      "Local AI assistants need strong fallbacks for noisy voice input.",
+      "Automation must be framed around concrete user tasks.",
+      "Privacy-first design is easier with local model options.",
+    ],
+    timeline: [
+      "Prototype voice capture and transcription.",
+      "Build the assistant orchestration engine.",
+      "Connect automation flows and test common tasks.",
+    ],
+    future: [
+      "Add more advanced command templates.",
+      "Support offline model execution.",
+      "Publish a polished desktop launcher experience.",
+    ],
+    caseStudy: {
+      problem:
+        "Many AI assistants rely on cloud services and fragmented workflows, making them less useful for local, privacy-aware automation.",
+      research:
+        "Research explored voice models, local LLM toolchains, automation hooks, and desktop UX patterns.",
+      planning:
+        "The plan emphasizes a modular assistant that can handle voice interaction, task execution, and local AI workflows without unnecessary cloud dependence.",
+      architecture:
+        "The assistant uses a voice front-end, transcription layer, model orchestration layer, and automation engine for desktop tasks.",
+      development:
+        "Development focused on integrating Whisper, TTS, and command automation into a single responsive local assistant experience.",
+      challenges: [
+        "Keeping latency low for voice interactions.",
+        "Maintaining reliability across different desktop environments.",
+        "Balancing local performance with AI capability.",
+      ],
+      results:
+        "The project is a working local AI assistant prototype that demonstrates voice interaction and automation for personal workflows.",
+      improvements: [
+        "Refine voice command accuracy and context handling.",
+        "Add richer desktop automation templates.",
+        "Polish the assistant UI and onboarding experience.",
+      ],
+    },
+  },
+  {
     slug: "portfolio-os",
     title: "Portfolio OS",
     eyebrow: "This website",
@@ -355,7 +516,7 @@ export const timeline = [
   },
   {
     year: "2025",
-    title: "KEAM College Tech Fest",
+    title: "KMEA College Tech Fest",
     type: "Award",
     detail: "First Prize - the strongest achievement currently provided and a clear proof point for recruiters.",
   },
@@ -376,7 +537,7 @@ export const timeline = [
 export const achievements = [
   {
     title: "First Prize",
-    context: "KEAM College Tech Fest",
+    context: "KMEA College Tech Fest",
     year: "2025",
     rarity: "Gold",
   },

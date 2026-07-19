@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent } from "react";
 import {
   AnimatePresence,
   motion,
@@ -685,6 +686,21 @@ function FeaturedProjects() {
 }
 
 function ProjectCard({ project }: { project: Project }) {
+  const cardRepo = project.repo || project.links.find((link) => link.href?.includes("github.com"))?.href;
+
+  const handleCardClick = (event: ReactMouseEvent<HTMLElement>) => {
+    if (!cardRepo) return;
+    if ((event.target as HTMLElement).closest("a")) return;
+    window.open(cardRepo, "_blank", "noopener,noreferrer");
+  };
+
+  const handleCardKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
+    if (!cardRepo) return;
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    window.open(cardRepo, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <motion.article
       variants={sectionVariants}
@@ -693,29 +709,57 @@ function ProjectCard({ project }: { project: Project }) {
       viewport={{ once: true, amount: 0.18 }}
       whileHover="hover"
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group relative overflow-hidden rounded-[2rem] border border-white/12 bg-[#0a1017] shadow-[0_18px_40px_rgba(0,0,0,0.18)] transition-all duration-300 hover:border-cyan-200/35 hover:shadow-[0_30px_120px_rgba(0,0,0,0.28)]"
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
+      tabIndex={cardRepo ? 0 : -1}
+      role={cardRepo ? "button" : undefined}
+      aria-label={
+        cardRepo
+          ? `Open GitHub repository for ${project.title}`
+          : undefined
+      }
+      className={
+        `group relative overflow-hidden rounded-[2rem] border border-white/12 bg-[#0a1017] shadow-[0_18px_40px_rgba(0,0,0,0.18)] transition-all duration-300 hover:border-cyan-200/35 hover:shadow-[0_30px_120px_rgba(0,0,0,0.28)] ` +
+        (cardRepo ? "cursor-pointer" : "")
+      }
     >
-      <div className="relative aspect-[16/10] overflow-hidden border-b border-white/10">
-        <Image
-          src={project.image}
-          alt={`${project.title} visual`}
-          fill
-          sizes="(min-width: 1024px) 33vw, 100vw"
-          className="object-cover transition duration-[700ms] ease-out group-hover:scale-105"
-        />
+      <div className="relative aspect-[16/10] overflow-hidden border-b border-white/10 bg-slate-950">
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={`${project.title} visual`}
+            fill
+            sizes="(min-width: 1024px) 33vw, 100vw"
+            className="object-cover transition duration-[700ms] ease-out group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full flex-col items-center justify-center gap-4 bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950/5 text-white/80">
+            <FileText className="size-14 text-cyan-200" />
+            <div className="max-w-xs text-center text-sm leading-6 text-white/70">
+              A clean portfolio-style placeholder for this project.
+            </div>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1017] via-transparent to-transparent" />
         <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-[#000a12]/75 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-100 backdrop-blur-md">
           {project.status}
         </div>
       </div>
       <div className="p-6 sm:p-7">
-        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-cyan-100/70">
-          {project.eyebrow}
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          {project.category ? (
+            <span className="rounded-full border border-white/10 bg-white/[0.05] px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] text-cyan-100">
+              {project.category}
+            </span>
+          ) : null}
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-cyan-100/70">
+            {project.eyebrow}
+          </p>
+        </div>
         <h3 className="mt-3 text-3xl font-black tracking-[-0.03em] text-white">{project.title}</h3>
         <p className="mt-4 text-sm leading-7 text-white/70">{project.summary}</p>
         <div className="mt-5 flex flex-wrap gap-2">
-          {project.techStack.slice(0, 4).map((tech) => (
+          {project.techStack.map((tech) => (
             <span
               key={tech}
               className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-white/65"
@@ -730,30 +774,10 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
         <div className="mt-5 flex flex-wrap gap-3">
           <Button asChild variant="secondary" size="sm">
-            {project.slug === "zeno5-emulator" ? (
-              <a
-                href="https://github.com/tossdace/Zeno5"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Case Study
-                <ChevronRight className="size-4" aria-hidden="true" />
-              </a>
-            ) : project.slug === "hirevoy" ? (
-              <a
-                href="https://hirevoy.vercel.app/"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Case Study
-                <ChevronRight className="size-4" aria-hidden="true" />
-              </a>
-            ) : (
-              <Link href={`/projects/${project.slug}`}>
-                Case Study
-                <ChevronRight className="size-4" aria-hidden="true" />
-              </Link>
-            )}
+            <a href={cardRepo ?? project.links[0]?.href ?? "/"} target="_blank" rel="noreferrer noopener">
+              View on GitHub
+              <ChevronRight className="size-4" aria-hidden="true" />
+            </a>
           </Button>
           {project.links.map((link) => (
             <ActionLink key={link.label} link={link} />
@@ -969,13 +993,22 @@ function ProjectFeatureSection({
       <div className={cn("grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center", flip && "lg:grid-cols-[0.95fr_1.05fr]")}>
         <div className={cn("relative overflow-hidden rounded-lg border border-white/12 bg-[#0a1017]", flip && "lg:order-2")}>
           <div className="relative aspect-[16/9]">
-            <Image
-              src={project.image}
-              alt={`${project.title} showcase`}
-              fill
-              sizes="(min-width: 1024px) 58vw, 100vw"
-              className="object-cover"
-            />
+            {project.image ? (
+              <Image
+                src={project.image}
+                alt={`${project.title} showcase`}
+                fill
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                className="object-cover"
+              />
+            ) : (
+              <div className="flex h-full flex-col items-center justify-center gap-4 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white/80 px-8 text-center">
+                <FileText className="size-14 text-cyan-200" />
+                <p className="max-w-lg text-sm leading-7 text-white/70">
+                  No visual available for this project yet.
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
