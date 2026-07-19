@@ -161,7 +161,7 @@ export const projects: Project[] = [
     title: "Hirevoy",
     eyebrow: "Founder project",
     status: "Founder-led product",
-    image: "/assets/hirevoy-dashboard.png",
+    image: "/assets/hirev.png",
     summary:
       "A startup direction around making hiring journeys easier to understand, present, and evaluate for people building real things.",
     impact:
