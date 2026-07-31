@@ -1,0 +1,6 @@
+{
+  "name": "Dhyan Ajay Portfolio",
+  "description": "Interactive portfolio and project showcase built with Next.js",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
