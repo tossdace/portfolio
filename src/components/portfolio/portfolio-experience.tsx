@@ -28,7 +28,6 @@ import {
   GraduationCap,
   Link as LinkIcon,
   Mail,
-  Menu,
   MonitorPlay,
   Network,
   Rocket,
@@ -48,7 +47,6 @@ import {
   chess,
   contactActions,
   githubConfig,
-  navigation,
   profile,
   projects,
   skillGroups,
@@ -58,6 +56,7 @@ import {
 } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
 import RedesignHero from "@/components/hero/Hero";
+import { DuckFamilyNavigation } from "@/components/navigation/DuckFamilyNavigation";
 
 const ZENO = projects.find((project) => project.slug === "zeno5-emulator")!;
 const HIREVOY = projects.find((project) => project.slug === "hirevoy")!;
@@ -114,7 +113,6 @@ type GitHubRepo = {
 export function PortfolioExperience() {
   const prefersReducedMotion = useReducedMotion();
   const [bootVisible, setBootVisible] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [developerMode, setDeveloperMode] = useState(false);
   const [pixelMode, setPixelMode] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
@@ -122,8 +120,6 @@ export function PortfolioExperience() {
   const shellRef = useRef<HTMLDivElement>(null);
   const bootRef = useRef<HTMLDivElement>(null);
   const konamiRef = useRef<string[]>([]);
-  const [pastHero, setPastHero] = useState(false);
-  const heroWrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -222,17 +218,6 @@ export function PortfolioExperience() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  useEffect(() => {
-    const el = heroWrapRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setPastHero(!entry.isIntersecting),
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   const addUnlock = (name: string) => {
     setUnlocks((current) => (current.includes(name) ? current : [...current, name]));
   };
@@ -260,20 +245,15 @@ export function PortfolioExperience() {
     >
       <AnimatePresence>{bootVisible && <BootOverlay refNode={bootRef} />}</AnimatePresence>
 
-      <SiteNav
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
+      <DuckFamilyNavigation
         onTerminal={() => {
           setTerminalOpen(true);
           addUnlock("Hidden Terminal");
         }}
-        visible={pastHero}
       />
 
       <main className="relative z-10">
-        <div ref={heroWrapRef}>
-          <RedesignHero bootDone={!bootVisible} />
-        </div>
+        <RedesignHero bootDone={!bootVisible} />
         <PixelDivider />
         <PlayerProfile unlocks={unlocks} />
         <PixelDivider />
@@ -450,136 +430,6 @@ function BootOverlay({ refNode }: { refNode: React.RefObject<HTMLDivElement | nu
         </div>
       </div>
     </motion.div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* NAVIGATION                                                                 */
-/* -------------------------------------------------------------------------- */
-
-function SiteNav({
-  mobileOpen,
-  setMobileOpen,
-  onTerminal,
-  visible,
-}: {
-  mobileOpen: boolean;
-  setMobileOpen: (open: boolean) => void;
-  onTerminal: () => void;
-  visible: boolean;
-}) {
-  return (
-    <header
-      aria-hidden={!visible}
-      inert={!visible}
-      className={cn(
-        "fixed inset-x-0 top-3 z-50 px-4 transition-[opacity,transform] duration-300 sm:px-6 lg:px-8",
-        visible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none -translate-y-3 opacity-0",
-      )}
-    >
-      <nav
-        aria-label="Primary navigation"
-        className="cyber-glass mx-auto flex h-14 max-w-6xl items-center justify-between rounded-2xl px-4 sm:px-6 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
-      >
-        <Link
-          href="#top"
-          className="group inline-flex items-center gap-3 text-sm font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-[#00FF88]"
-          aria-label="Dhyan Ajay home"
-        >
-          <span className="grid size-8 place-items-center rounded-lg border border-[#00FF88]/40 bg-[#00FF88]/10 font-mono text-xs font-bold text-[#00FF88] shadow-[0_0_12px_rgba(0,255,136,0.25)] group-hover:bg-[#00FF88] group-hover:text-[#06080A] transition-colors">
-            DA
-          </span>
-          <span className="hidden font-mono text-xs font-bold uppercase tracking-wider text-white sm:block">
-            Dhyan Ajay
-          </span>
-          <span className="hidden rounded-md border border-[#00FF88]/20 bg-[#00FF88]/10 px-2 py-0.5 font-mono text-[10px] text-[#00FF88] lg:inline-block">
-            [SYS: ONLINE]
-          </span>
-        </Link>
-
-        {/* Desktop links */}
-        <div className="hidden items-center gap-1 lg:flex">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-lg px-3 py-1.5 text-xs font-mono tracking-wide text-white/70 transition hover:bg-[#00FF88]/10 hover:text-[#00FF88] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF88]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={onTerminal}
-            aria-label="Open terminal"
-            title="Open terminal"
-            className="hidden sm:inline-flex border border-[rgba(0,255,136,0.2)] bg-[#00FF88]/5 text-[#00FF88] hover:bg-[#00FF88]/20"
-          >
-            <Terminal className="size-4" aria-hidden="true" />
-          </Button>
-          <Button asChild size="sm" className="hidden sm:inline-flex">
-            <Link href="#contact">
-              Hire Me
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            size="icon"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-expanded={mobileOpen}
-            aria-label="Toggle navigation"
-            className="lg:hidden"
-          >
-            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-          </Button>
-        </div>
-      </nav>
-
-      {/* Mobile nav drawer */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="cyber-glass mx-auto mt-2 max-w-6xl rounded-2xl p-4 lg:hidden"
-          >
-            <div className="grid gap-1 font-mono text-xs">
-              {navigation.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-white/80 transition hover:bg-[#00FF88]/10 hover:text-[#00FF88]"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileOpen(false);
-                  onTerminal();
-                }}
-                className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-left text-white/80 transition hover:bg-[#00FF88]/10 hover:text-[#00FF88]"
-              >
-                <Terminal className="size-4 text-[#00FF88]" aria-hidden="true" />
-                Console
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
   );
 }
 

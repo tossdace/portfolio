@@ -85,27 +85,6 @@ export default function Hero({ bootDone = true }: HeroProps) {
       <div className="dhyan-grain" />
       <div className="dhyan-vignette" />
 
-      {/* Hero-internal topbar */}
-      <div className="dhyan-topbar">
-        <a
-          className="dhyan-mark"
-          href="#top"
-          aria-label={`${profile.name} home`}
-        >
-          {firstName.charAt(0)}
-          <span>.</span>
-        </a>
-        <nav className="dhyan-nav" aria-label="Hero navigation">
-          <a href="#projects">Work</a>
-          <a href="#profile">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <span className="dhyan-status">
-          <i /> BUILDING {profile.currentProject.toUpperCase()}
-        </span>
-      </div>
-
       {/* The still image remains visible until the supplied video can play. */}
       <div className="dhyan-scene-wrap">
         <div

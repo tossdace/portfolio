@@ -282,3 +282,220 @@
   .dhyan-title-line { transform: none; }
   .dhyan-scene-wrap { opacity: 1 !important; }
 }
+
+/* Duck family navigation */
+.duck-nav-header {
+  position: fixed;
+  z-index: 50;
+  top: max(8px, env(safe-area-inset-top));
+  left: 50%;
+  display: flex;
+  width: min(1100px, calc(100vw - 32px));
+  align-items: flex-end;
+  gap: 10px;
+  padding: 5px 8px 7px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 245, 250, 0.08);
+  border-radius: 18px;
+  background: rgba(14, 10, 16, 0.18);
+  box-shadow: 0 8px 32px rgba(7, 4, 9, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.duck-family-nav {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.duck-nav-home,
+.duck-nav-item {
+  position: relative;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  color: #fff4e9;
+  text-decoration: none;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.duck-nav-home {
+  min-width: 136px;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 3px;
+  padding-inline: 3px 10px;
+}
+
+.duck-nav-item {
+  min-width: 78px;
+  padding: 0 4px 2px;
+}
+
+.duck-art {
+  display: block;
+  width: 45px;
+  height: 38px;
+  overflow: visible;
+  filter: drop-shadow(0 4px 5px rgba(14, 7, 12, 0.35));
+  animation: duck-family-bob 4.4s ease-in-out infinite;
+  animation-delay: var(--duck-delay, 0ms);
+  transform-origin: 50% 80%;
+  transition: transform 220ms ease, filter 220ms ease;
+}
+
+.duck-art-mother {
+  width: 74px;
+  height: 64px;
+}
+
+.duck-body,
+.duck-neck { fill: #fff8ec; stroke: #d8c7b4; stroke-width: 1.1; }
+.duck-wing { fill: #f5e7cb; stroke: #d7bf9f; stroke-width: 0.9; }
+.duck-tail { fill: #fff8ec; stroke: #d8c7b4; stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
+.duck-beak,
+.duck-foot { fill: #eea45e; stroke: #c8783b; stroke-width: 0.8; stroke-linejoin: round; }
+.duck-eye { fill: #32252a; }
+.duck-highlight { fill: #fff; }
+.duck-leg { fill: none; stroke: #d88c4f; stroke-width: 1.8; stroke-linecap: round; }
+.duck-water-shadow { fill: rgba(6, 4, 8, 0.34); }
+.duck-scarf { fill: #bd779b; stroke: #8f5676; stroke-width: 0.7; }
+.duck-blossom circle { fill: #f3b5d0; stroke: #fff0f5; stroke-width: 0.5; }
+.duck-blossom .duck-blossom-center { fill: #f3d28b; stroke: none; }
+.duck-art-pose-1 .duck-wing { transform: translateY(-2px) rotate(-12deg); transform-origin: 46px 40px; }
+.duck-art-pose-2 .duck-neck { transform: rotate(5deg); transform-origin: 37px 27px; }
+.duck-art-pose-3 .duck-tail { transform: translateY(-2px); }
+.duck-art-pose-4 .duck-wing { transform: translateY(-4px) rotate(14deg); transform-origin: 46px 40px; }
+
+.duck-home-label,
+.duck-nav-label {
+  color: #fff3e8;
+  font-family: var(--font-sans), "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.15;
+  text-shadow: 0 2px 8px rgba(6, 3, 8, 0.95), 0 0 14px rgba(6, 3, 8, 0.7);
+  transition: color 200ms ease, opacity 200ms ease, transform 200ms ease;
+}
+
+.duck-home-label {
+  max-width: 82px;
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+}
+
+.duck-nav-label {
+  display: block;
+  min-height: 14px;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+.duck-nav-home:hover .duck-art,
+.duck-nav-home:focus-visible .duck-art,
+.duck-nav-item:hover .duck-art,
+.duck-nav-item:focus-visible .duck-art {
+  filter: drop-shadow(0 6px 9px rgba(250, 177, 208, 0.42));
+  transform: translateY(-4px) scale(1.06);
+}
+
+.duck-nav-item:hover .duck-nav-label,
+.duck-nav-item:focus-visible .duck-nav-label,
+.duck-nav-item[aria-current="location"] .duck-nav-label,
+.duck-nav-home[aria-current="location"] .duck-home-label {
+  color: #ffd8e8;
+  opacity: 1;
+}
+
+.duck-nav-item[aria-current="location"]::after {
+  position: absolute;
+  bottom: -5px;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: #edb7d2;
+  box-shadow: 0 0 10px rgba(237, 183, 210, 0.55);
+  content: "";
+}
+
+.duck-nav-home:focus-visible,
+.duck-nav-item:focus-visible,
+.duck-nav-terminal:focus-visible {
+  outline: 2px solid #f4c0d8;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.duck-nav-terminal {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border: 1px solid rgba(255, 240, 248, 0.16);
+  border-radius: 50%;
+  background: rgba(15, 10, 16, 0.32);
+  color: #f2c6da;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.duck-nav-terminal svg { width: 16px; height: 16px; }
+.duck-nav-terminal:hover { background: rgba(237, 183, 210, 0.16); transform: translateY(-2px); }
+
+@keyframes duck-family-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@media (max-width: 640px) {
+  .duck-nav-header {
+    top: max(4px, env(safe-area-inset-top));
+    left: 0;
+    width: 100%;
+    padding: 5px 8px 8px;
+    transform: none;
+    border-width: 0 0 1px;
+    border-radius: 0;
+    background: linear-gradient(180deg, rgba(13, 9, 15, 0.46), rgba(13, 9, 15, 0.12));
+  }
+
+  .duck-family-nav {
+    justify-content: flex-start;
+    gap: 3px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 0 42px 1px 1px;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .duck-family-nav::-webkit-scrollbar { display: none; }
+  .duck-nav-home { min-width: 150px; flex: 0 0 150px; scroll-snap-align: start; }
+  .duck-nav-item { min-width: 76px; flex: 0 0 76px; scroll-snap-align: center; }
+  .duck-art { width: 42px; height: 35px; }
+  .duck-art-mother { width: 66px; height: 58px; }
+  .duck-home-label { max-width: 76px; font-size: 11px; }
+  .duck-nav-label { font-size: 10px; }
+  .duck-nav-terminal { position: absolute; top: 13px; right: 9px; width: 32px; height: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .duck-art { animation: none; transition: none; }
+  .duck-nav-home:hover .duck-art,
+  .duck-nav-home:focus-visible .duck-art,
+  .duck-nav-item:hover .duck-art,
+  .duck-nav-item:focus-visible .duck-art,
+  .duck-nav-terminal:hover { transform: none; }
+  .duck-home-label,
+  .duck-nav-label,
+  .duck-nav-terminal { transition: none; }
+}

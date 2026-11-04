@@ -67,11 +67,10 @@ export const profile = {
 };
 
 export const navigation = [
-  { label: "Profile", href: "#profile" },
+  { label: "About", href: "#profile" },
   { label: "Projects", href: "#projects" },
-  { label: "Zeno5", href: "#zeno5" },
-  { label: "Hirevoy", href: "#hirevoy" },
-  { label: "Chess", href: "#chess" },
+  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#timeline" },
   { label: "Contact", href: "#contact" },
 ];
 
