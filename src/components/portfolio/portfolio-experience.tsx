@@ -57,6 +57,7 @@ import {
   type ProjectLink,
 } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
+import RedesignHero from "@/components/hero/Hero";
 
 const ZENO = projects.find((project) => project.slug === "zeno5-emulator")!;
 const HIREVOY = projects.find((project) => project.slug === "hirevoy")!;
@@ -121,6 +122,8 @@ export function PortfolioExperience() {
   const shellRef = useRef<HTMLDivElement>(null);
   const bootRef = useRef<HTMLDivElement>(null);
   const konamiRef = useRef<string[]>([]);
+  const [pastHero, setPastHero] = useState(false);
+  const heroWrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -219,6 +222,17 @@ export function PortfolioExperience() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const el = heroWrapRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setPastHero(!entry.isIntersecting),
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const addUnlock = (name: string) => {
     setUnlocks((current) => (current.includes(name) ? current : [...current, name]));
   };
@@ -244,9 +258,6 @@ export function PortfolioExperience() {
         pixelMode && "pixel-mode",
       )}
     >
-      {/* Neo Cyber Multi-Layer Background */}
-      <CyberBackground />
-
       <AnimatePresence>{bootVisible && <BootOverlay refNode={bootRef} />}</AnimatePresence>
 
       <SiteNav
@@ -256,10 +267,13 @@ export function PortfolioExperience() {
           setTerminalOpen(true);
           addUnlock("Hidden Terminal");
         }}
+        visible={pastHero}
       />
 
       <main className="relative z-10">
-        <Hero />
+        <div ref={heroWrapRef}>
+          <RedesignHero bootDone={!bootVisible} />
+        </div>
         <PixelDivider />
         <PlayerProfile unlocks={unlocks} />
         <PixelDivider />
@@ -389,17 +403,7 @@ function CyberBackground() {
 
 function PixelDivider() {
   return (
-    <div className="relative mx-auto my-4 max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="flex items-center justify-between gap-4">
-        <span className="h-1 w-1 bg-[#00FF88]/40" />
-        <div className="pixel-dots-divider h-[2px] flex-1 opacity-40" />
-        <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#00FF88]/40">
-          + + +
-        </span>
-        <div className="pixel-dots-divider h-[2px] flex-1 opacity-40" />
-        <span className="h-1 w-1 bg-[#00FF88]/40" />
-      </div>
-    </div>
+    <div className="portfolio-divider" aria-hidden="true" />
   );
 }
 

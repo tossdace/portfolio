@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/dhyan-redesign.css";
 
 :root {
   --background: #06080a;
@@ -12,8 +13,8 @@
   --glow-emerald: rgba(0, 255, 136, 0.25);
   --foreground: #f0fdf4;
   --muted: #94a3b8;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-manrope);
+  --font-mono: var(--font-dm-mono);
 }
 
 @theme inline {
@@ -211,4 +212,103 @@ a {
 
 .animate-fog {
   animation: fog-float 20s ease-in-out infinite;
+}
+
+/* Portfolio redesign: dark plum surfaces, restrained blossom accents. */
+:root {
+  --portfolio-bg: #0d0a0e;
+  --portfolio-surface: #151016;
+  --portfolio-ink: #f7eff5;
+  --portfolio-muted: #b8aab5;
+  --portfolio-accent: #edb7d2;
+  --portfolio-line: rgba(247, 228, 240, 0.12);
+}
+
+::selection {
+  background: rgba(237, 183, 210, 0.32);
+  color: var(--portfolio-ink);
+}
+
+:focus-visible {
+  outline-color: var(--portfolio-accent);
+}
+
+.portfolio-shell {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(93, 54, 82, 0.13), transparent 42rem),
+    var(--portfolio-bg) !important;
+  color: var(--portfolio-ink) !important;
+}
+
+.portfolio-shell main > section[id] {
+  scroll-margin-top: 5rem;
+  padding-block: clamp(4.5rem, 9vw, 8rem);
+  background-color: transparent !important;
+}
+
+.portfolio-shell main > #projects,
+.portfolio-shell main > #hirevoy,
+.portfolio-shell main > #achievements,
+.portfolio-shell main > #contact {
+  background: linear-gradient(180deg, rgba(25, 17, 25, 0.56), rgba(13, 10, 14, 0.2)) !important;
+}
+
+.portfolio-shell .cyber-glass {
+  border-color: var(--portfolio-line) !important;
+  background: linear-gradient(145deg, rgba(30, 22, 31, 0.82), rgba(16, 12, 18, 0.8)) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.035), 0 18px 50px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(18px);
+}
+
+.portfolio-shell .cyber-glass-hover:hover {
+  border-color: rgba(237, 183, 210, 0.38) !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28) !important;
+}
+
+.portfolio-shell [class*="text-[#00FF88]"],
+.portfolio-shell [class*="text-[#6CFFB2]"],
+.portfolio-shell [class*="text-emerald-"] {
+  color: var(--portfolio-accent) !important;
+}
+
+.portfolio-shell [class*="border-[#00FF88]"],
+.portfolio-shell [class*="border-[rgba(0,255,136"] {
+  border-color: rgba(237, 183, 210, 0.2) !important;
+}
+
+.portfolio-shell [class*="bg-[#00FF88]"],
+.portfolio-shell [class*="bg-[rgba(0,255,136"] {
+  background-color: rgba(237, 183, 210, 0.1) !important;
+}
+
+.portfolio-shell a[class*="bg-[#00FF88]"][class*="font-bold"],
+.portfolio-shell button[class*="bg-[#00FF88]"][class*="font-bold"] {
+  border-color: var(--portfolio-accent) !important;
+  background-color: var(--portfolio-accent) !important;
+  color: #21151d !important;
+}
+
+.portfolio-shell [class*="shadow-"][class*="#00FF88"] {
+  box-shadow: 0 0 22px rgba(237, 183, 210, 0.08) !important;
+}
+
+.portfolio-shell h2 {
+  letter-spacing: -0.045em;
+}
+
+.portfolio-shell .portfolio-divider {
+  width: min(84rem, calc(100% - 3rem));
+  height: 1px;
+  margin-inline: auto;
+  background: linear-gradient(90deg, transparent, var(--portfolio-line) 14%, var(--portfolio-line) 86%, transparent);
+}
+
+@media (max-width: 640px) {
+  .portfolio-shell main > section[id] {
+    padding-block: 4.25rem;
+  }
+
+  .portfolio-shell .portfolio-divider {
+    width: calc(100% - 2rem);
+  }
 }
