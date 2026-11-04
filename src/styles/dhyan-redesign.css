@@ -290,17 +290,12 @@
   top: max(8px, env(safe-area-inset-top));
   left: 50%;
   display: flex;
-  width: min(1100px, calc(100vw - 32px));
+  width: min(1120px, calc(100vw - 36px));
   align-items: flex-end;
-  gap: 10px;
-  padding: 5px 8px 7px;
+  gap: 12px;
+  padding: 5px 2px 8px;
   transform: translateX(-50%);
-  border: 1px solid rgba(255, 245, 250, 0.08);
-  border-radius: 18px;
-  background: rgba(14, 10, 16, 0.18);
-  box-shadow: 0 8px 32px rgba(7, 4, 9, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  pointer-events: none;
 }
 
 .duck-family-nav {
@@ -309,7 +304,8 @@
   flex: 1;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 5px;
+  gap: 9px;
+  pointer-events: auto;
 }
 
 .duck-nav-home,
@@ -317,9 +313,11 @@
   position: relative;
   display: flex;
   flex: 0 1 auto;
+  min-width: 0;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  gap: 1px;
   color: #fff4e9;
   text-decoration: none;
   text-align: center;
@@ -327,83 +325,140 @@
 }
 
 .duck-nav-home {
-  min-width: 136px;
-  flex-direction: row;
-  justify-content: flex-start;
-  gap: 3px;
-  padding-inline: 3px 10px;
+  min-width: 140px;
+  padding-inline: 2px 8px;
 }
 
 .duck-nav-item {
-  min-width: 78px;
-  padding: 0 4px 2px;
+  min-width: 88px;
+  padding: 0 2px 1px;
+}
+
+.duck-character {
+  position: relative;
+  display: grid;
+  width: 78px;
+  height: 61px;
+  place-items: end center;
+  isolation: isolate;
 }
 
 .duck-art {
+  position: relative;
+  z-index: 1;
   display: block;
-  width: 45px;
-  height: 38px;
+  width: 51px;
+  height: 43px;
   overflow: visible;
-  filter: drop-shadow(0 4px 5px rgba(14, 7, 12, 0.35));
-  animation: duck-family-bob 4.4s ease-in-out infinite;
+  filter: drop-shadow(0 3px 5px rgba(14, 7, 12, 0.42));
+  animation: duck-family-bob 4.8s ease-in-out infinite;
   animation-delay: var(--duck-delay, 0ms);
   transform-origin: 50% 80%;
-  transition: transform 220ms ease, filter 220ms ease;
+  transition: transform 260ms ease, filter 260ms ease;
 }
 
-.duck-art-mother {
-  width: 74px;
-  height: 64px;
+.duck-art-lead {
+  width: 88px;
+  height: 68px;
+  filter: drop-shadow(0 5px 8px rgba(14, 7, 12, 0.55));
 }
 
 .duck-body,
 .duck-neck { fill: #fff8ec; stroke: #d8c7b4; stroke-width: 1.1; }
-.duck-wing { fill: #f5e7cb; stroke: #d7bf9f; stroke-width: 0.9; }
+.duck-wing { fill: #f5e7cb; stroke: #d7bf9f; stroke-width: 0.9; transform-box: fill-box; transform-origin: center; }
 .duck-tail { fill: #fff8ec; stroke: #d8c7b4; stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
 .duck-beak,
 .duck-foot { fill: #eea45e; stroke: #c8783b; stroke-width: 0.8; stroke-linejoin: round; }
 .duck-eye { fill: #32252a; }
 .duck-highlight { fill: #fff; }
 .duck-leg { fill: none; stroke: #d88c4f; stroke-width: 1.8; stroke-linecap: round; }
-.duck-water-shadow { fill: rgba(6, 4, 8, 0.34); }
-.duck-scarf { fill: #bd779b; stroke: #8f5676; stroke-width: 0.7; }
-.duck-blossom circle { fill: #f3b5d0; stroke: #fff0f5; stroke-width: 0.5; }
-.duck-blossom .duck-blossom-center { fill: #f3d28b; stroke: none; }
-.duck-art-pose-1 .duck-wing { transform: translateY(-2px) rotate(-12deg); transform-origin: 46px 40px; }
-.duck-art-pose-2 .duck-neck { transform: rotate(5deg); transform-origin: 37px 27px; }
-.duck-art-pose-3 .duck-tail { transform: translateY(-2px); }
-.duck-art-pose-4 .duck-wing { transform: translateY(-4px) rotate(14deg); transform-origin: 46px 40px; }
+.duck-water-shadow { fill: rgba(6, 4, 8, 0.42); }
+.duck-scarf { fill: #353044; stroke: #211d2a; stroke-width: 0.9; }
+.duck-scarf-tail { fill: #474057; stroke: #211d2a; stroke-width: 0.7; }
+.duck-cap { fill: #604736; stroke: #392c27; stroke-width: 1; }
+.duck-cap-brim { fill: #8b6445; stroke: #392c27; stroke-width: 1; }
+.duck-goggle-band { fill: none; stroke: #4a3430; stroke-width: 2.5; }
+.duck-goggle { fill: #a9bfd1; stroke: #dfb277; stroke-width: 1.8; }
+.duck-backpack path:first-child { fill: #80553b; stroke: #452f2a; stroke-width: 1.2; }
+.duck-backpack path:nth-child(2) { fill: #a2754d; stroke: #543a30; stroke-width: 1; }
+.duck-backpack .duck-pack-strap { fill: none; stroke: #d2a36c; stroke-width: 2; }
+.duck-backpack .duck-pack-buckle { fill: #d1a15c; stroke: #563d31; stroke-width: 1; }
+.duck-lantern path:first-child { fill: #684b36; stroke: #35282a; stroke-width: 1; }
+.duck-lantern path:nth-child(2) { fill: none; stroke: #d3a15d; stroke-width: 1.5; }
+.duck-lantern .duck-lantern-light { fill: #ffe2a0; stroke: #fff2cd; stroke-width: 0.6; filter: drop-shadow(0 0 3px #ffc46d); }
+.duck-water-ripple { position: absolute; z-index: 0; bottom: 1px; left: 50%; width: 74px; height: 15px; overflow: visible; transform: translateX(-50%); }
+.duck-water-ripple ellipse { fill: none; stroke: rgba(222, 184, 224, 0.58); stroke-width: 0.8; transform-origin: center; animation: duck-ripple 4.8s ease-out infinite; }
+.duck-water-ripple ellipse:nth-child(2) { stroke: rgba(249, 188, 215, 0.42); animation-delay: -2.4s; }
+.duck-nav-home .duck-water-ripple { width: 92px; height: 19px; }
+.duckling-accessory { stroke-linecap: round; stroke-linejoin: round; }
+.duckling-scout-cap { fill: #bd8760; stroke: #694b3c; stroke-width: 1.2; }
+.duckling-headphones { fill: none; stroke: #775385; stroke-width: 3; }
+.duckling-headphones rect { fill: #b996cf; stroke: #60406f; stroke-width: 1; }
+.duckling-pack { fill: #82929d; stroke: #45535b; stroke-width: 1; }
+.duckling-pack path:last-child { fill: #d2b574; }
+.duckling-pilot-cap { fill: #70818d; stroke: #45515a; stroke-width: 1.2; }
+.duckling-pilot-cap path:last-child { fill: none; stroke: #d3b373; stroke-width: 1.5; }
+.duckling-blossom circle { fill: #f3b5d0; stroke: #fff0f5; stroke-width: 0.5; }
+.duckling-blossom .duck-blossom-center { fill: #f3d28b; stroke: none; }
+.duck-art-pose-2 .duck-wing { transform: translateY(-2px) rotate(-11deg); }
+.duck-art-pose-3 .duck-neck { transform: rotate(4deg); }
+.duck-art-pose-4 .duck-tail { transform: translateY(-2px); }
+.duck-art-pose-5 .duck-wing { transform: translateY(-3px) rotate(12deg); }
 
 .duck-home-label,
 .duck-nav-label {
+  position: relative;
+  display: block;
+  min-height: 28px;
+  max-width: 100%;
+  padding: 6px 12px 5px;
+  overflow: visible;
+  border: 1px solid rgba(222, 176, 119, 0.88);
+  border-radius: 5px 7px 5px 7px;
+  background:
+    linear-gradient(180deg, rgba(255, 236, 207, 0.13), transparent 45%),
+    linear-gradient(100deg, #543427, #76482f 42%, #4d302b);
+  box-shadow: inset 0 0 0 1px rgba(59, 35, 31, 0.82), 0 3px 9px rgba(12, 5, 12, 0.46), 0 0 14px rgba(234, 164, 205, 0.1);
   color: #fff3e8;
   font-family: var(--font-sans), "Segoe UI", sans-serif;
   font-size: 11px;
-  font-weight: 650;
+  font-weight: 700;
   line-height: 1.15;
-  text-shadow: 0 2px 8px rgba(6, 3, 8, 0.95), 0 0 14px rgba(6, 3, 8, 0.7);
-  transition: color 200ms ease, opacity 200ms ease, transform 200ms ease;
+  text-shadow: 0 1px 3px rgba(20, 9, 10, 0.86);
+  white-space: nowrap;
+  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease, transform 220ms ease, box-shadow 220ms ease;
 }
 
 .duck-home-label {
-  max-width: 82px;
-  text-align: left;
+  min-width: 112px;
   font-size: 12px;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.015em;
 }
 
 .duck-nav-label {
-  display: block;
-  min-height: 14px;
-  white-space: nowrap;
-  opacity: 0.9;
+  min-width: 82px;
 }
 
-.duck-nav-home:hover .duck-art,
-.duck-nav-home:focus-visible .duck-art,
+.duck-nav-plaque::before,
+.duck-nav-plaque::after {
+  position: absolute;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border: 1px solid rgba(250, 218, 165, 0.85);
+  border-radius: 50%;
+  content: "";
+  transform: translateY(-50%);
+}
+
+.duck-nav-plaque::before { left: 4px; }
+.duck-nav-plaque::after { right: 4px; }
+
 .duck-nav-item:hover .duck-art,
-.duck-nav-item:focus-visible .duck-art {
-  filter: drop-shadow(0 6px 9px rgba(250, 177, 208, 0.42));
+.duck-nav-item:focus-visible .duck-art,
+.duck-nav-home:hover .duck-art,
+.duck-nav-home:focus-visible .duck-art {
+  filter: drop-shadow(0 6px 9px rgba(250, 177, 208, 0.5));
   transform: translateY(-4px) scale(1.06);
 }
 
@@ -411,18 +466,21 @@
 .duck-nav-item:focus-visible .duck-nav-label,
 .duck-nav-item[aria-current="location"] .duck-nav-label,
 .duck-nav-home[aria-current="location"] .duck-home-label {
-  color: #ffd8e8;
-  opacity: 1;
+  border-color: #ffd3e6;
+  background-color: #87526c;
+  box-shadow: inset 0 0 0 1px rgba(59, 35, 31, 0.8), 0 4px 12px rgba(12, 5, 12, 0.5), 0 0 18px rgba(244, 179, 211, 0.28);
+  color: #ffe4f0;
+  transform: translateY(-1px);
 }
 
 .duck-nav-item[aria-current="location"]::after {
   position: absolute;
-  bottom: -5px;
-  width: 18px;
-  height: 2px;
+  bottom: -4px;
+  width: 26px;
+  height: 3px;
   border-radius: 999px;
-  background: #edb7d2;
-  box-shadow: 0 0 10px rgba(237, 183, 210, 0.55);
+  background: linear-gradient(90deg, #f5c9e0, #c7b4ef, #f5c9e0);
+  box-shadow: 0 0 10px rgba(237, 183, 210, 0.65);
   content: "";
 }
 
@@ -435,6 +493,7 @@
 }
 
 .duck-nav-terminal {
+  pointer-events: auto;
   display: grid;
   width: 38px;
   height: 38px;
@@ -456,43 +515,48 @@
   50% { transform: translateY(-2px); }
 }
 
+@keyframes duck-ripple {
+  0%, 100% { opacity: 0.38; transform: scaleX(0.9); }
+  50% { opacity: 0.8; transform: scaleX(1.05); }
+}
+
 @media (max-width: 640px) {
   .duck-nav-header {
     top: max(4px, env(safe-area-inset-top));
     left: 0;
     width: 100%;
+    gap: 0;
     padding: 5px 8px 8px;
     transform: none;
-    border-width: 0 0 1px;
-    border-radius: 0;
-    background: linear-gradient(180deg, rgba(13, 9, 15, 0.46), rgba(13, 9, 15, 0.12));
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
 
   .duck-family-nav {
     justify-content: flex-start;
-    gap: 3px;
+    gap: 8px;
     overflow-x: auto;
     overscroll-behavior-x: contain;
-    padding: 0 42px 1px 1px;
+    padding: 0 45px 4px 2px;
     scrollbar-width: none;
     scroll-snap-type: x proximity;
+    mask-image: linear-gradient(90deg, #000 0%, #000 92%, transparent 100%);
   }
 
   .duck-family-nav::-webkit-scrollbar { display: none; }
-  .duck-nav-home { min-width: 150px; flex: 0 0 150px; scroll-snap-align: start; }
+  .duck-nav-home { min-width: 125px; flex: 0 0 125px; scroll-snap-align: start; }
   .duck-nav-item { min-width: 76px; flex: 0 0 76px; scroll-snap-align: center; }
-  .duck-art { width: 42px; height: 35px; }
-  .duck-art-mother { width: 66px; height: 58px; }
-  .duck-home-label { max-width: 76px; font-size: 11px; }
-  .duck-nav-label { font-size: 10px; }
+  .duck-character { width: 64px; height: 52px; }
+  .duck-art { width: 43px; height: 36px; }
+  .duck-art-lead { width: 72px; height: 57px; }
+  .duck-water-ripple { width: 62px; height: 13px; }
+  .duck-nav-home .duck-water-ripple { width: 78px; height: 16px; }
+  .duck-home-label { min-width: 108px; font-size: 11px; }
+  .duck-nav-label { min-width: 74px; min-height: 26px; padding: 6px 9px 5px; font-size: 10px; }
   .duck-nav-terminal { position: absolute; top: 13px; right: 9px; width: 32px; height: 32px; }
   .dhyan-grain { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .duck-art { animation: none; transition: none; }
+  .duck-art, .duck-water-ripple ellipse { animation: none; transition: none; }
   .duck-nav-home:hover .duck-art,
   .duck-nav-home:focus-visible .duck-art,
   .duck-nav-item:hover .duck-art,

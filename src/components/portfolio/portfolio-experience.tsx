@@ -39,7 +39,7 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -120,12 +120,12 @@ export function PortfolioExperience() {
   const shellRef = useRef<HTMLDivElement>(null);
   const bootRef = useRef<HTMLDivElement>(null);
   const konamiRef = useRef<string[]>([]);
+  const addUnlock = useCallback((name: string) => {
+    setUnlocks((current) => (current.includes(name) ? current : [...current, name]));
+  }, []);
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setBootVisible(false);
-      return;
-    }
+    if (prefersReducedMotion) return;
 
     const node = bootRef.current;
     if (!node) return;
@@ -216,11 +216,7 @@ export function PortfolioExperience() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  const addUnlock = (name: string) => {
-    setUnlocks((current) => (current.includes(name) ? current : [...current, name]));
-  };
+  }, [addUnlock]);
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     const node = shellRef.current;
@@ -243,7 +239,11 @@ export function PortfolioExperience() {
         pixelMode && "pixel-mode",
       )}
     >
-      <AnimatePresence>{bootVisible && <BootOverlay refNode={bootRef} />}</AnimatePresence>
+      <AnimatePresence>
+        {bootVisible && prefersReducedMotion !== true && (
+          <BootOverlay refNode={bootRef} />
+        )}
+      </AnimatePresence>
 
       <DuckFamilyNavigation
         onTerminal={() => {
@@ -253,7 +253,7 @@ export function PortfolioExperience() {
       />
 
       <main className="relative z-10">
-        <RedesignHero bootDone={!bootVisible} />
+        <RedesignHero bootDone={!bootVisible || prefersReducedMotion === true} />
         <PixelDivider />
         <PlayerProfile unlocks={unlocks} />
         <PixelDivider />
@@ -446,14 +446,6 @@ function Hero() {
       animate="visible"
       className="relative isolate flex min-h-[92svh] items-end overflow-hidden border-b border-[#00FF88]/15 px-4 pb-16 pt-32 sm:px-6 lg:px-8"
     >
-      <Image
-        src="/assets/hero-command-deck.png"
-        alt="Dark futuristic command deck with code panels and a chess board"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover opacity-60 mix-blend-luminosity"
-      />
       {/* Neo Emerald gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#06080A] via-[#06080A]/80 to-transparent" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_var(--cursor-x,50%)_var(--cursor-y,40%),rgba(0,255,136,0.12),transparent_32rem)]" />
@@ -467,7 +459,7 @@ function Hero() {
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#00FF88]/30 bg-[#00FF88]/10 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.28em] text-[#00FF88] shadow-[0_0_15px_rgba(0,255,136,0.2)]"
           >
             <Sparkles className="size-4 text-[#00FF88]" aria-hidden="true" />
-            Building real products, not pitch decks
+            Creative developer and product builder
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -483,7 +475,7 @@ function Hero() {
             transition={{ delay: 0.15, duration: 0.9, ease: "easeOut" }}
             className="mt-6 max-w-3xl text-base leading-8 text-[#f0fdf4]/80 sm:text-lg"
           >
-            I'm a 19-year-old CS student and founder of Hirevoy. Right now I'm building the Zeno5 Emulator while learning reverse engineering and asset ripping. I ship things that work, I win tech fests, and I keep improving through real projects and deeper systems work.
+            I&apos;m a {profile.age}-year-old computer science student and the founder of Hirevoy. I&apos;m currently building the Zeno5 Emulator while learning reverse engineering and asset extraction. I enjoy turning ideas into working software and learning through hands-on projects.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -560,7 +552,7 @@ function PlayerProfile({ unlocks }: { unlocks: string[] }) {
     <MotionSection
       id="profile"
       eyebrow="Player profile"
-      title="NOTHING Much Just About Me."
+      title="A little about me."
       copy={profile.shortPitch}
     >
       <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
@@ -596,44 +588,43 @@ function PlayerProfile({ unlocks }: { unlocks: string[] }) {
           <ProfileTile
             icon={<Code2 />}
             title="Developer"
-            text="If it sounds interesting, I make sure there is a lot of work on my GitHub, and I learn something new with every project."
+            text="I explore ideas through projects and learn something new with each one."
           />
           <ProfileTile
             icon={<Briefcase />}
             title="Founder"
             text={
               <>
-                Hirevoy is a local guide hiring app I built{" "}
+                I built Hirevoy, a hiring app for local guides. Visit{" "}
                 <a
                   href="https://hirevoy.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#00FF88] underline underline-offset-4 hover:text-[#6CFFB2]"
                 >
-                  here
+                  Hirevoy
                 </a>
-                .
               </>
             }
           />
           <ProfileTile
             icon={<Brain />}
             title="Problem Solver"
-            text="i have patience stay in from of screen untill am satisfied :)"
+            text="I stay with a problem until the result meets my standards."
           />
           <ProfileTile
             icon={<Trophy />}
             title="Chess Player"
             text={
               <>
-                I have a chess rating of 2029 on Chess.com. Challenge me{" "}
+                My Chess.com rating is {profile.chessRating.split(" ")[0]}. Find me{" "}
                 <a
                   href="https://www.chess.com/member/dhyan-ajay"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#00FF88] underline underline-offset-4 hover:text-[#6CFFB2]"
                 >
-                  here or my username is dhyan-ajay
+                  on Chess.com as dhyan-ajay
                 </a>
                 .
               </>
@@ -643,7 +634,7 @@ function PlayerProfile({ unlocks }: { unlocks: string[] }) {
             <PixelCornerBrackets />
             <div className="flex items-center gap-3">
               <Award className="size-5 text-[#00FF88]" aria-hidden="true" />
-              <h3 className="text-lg font-semibold text-white">Unlocked Signals</h3>
+              <h3 className="text-lg font-semibold text-white">Traits and discoveries</h3>
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {profile.personality.map((trait) => (
@@ -691,8 +682,8 @@ function FeaturedProjects() {
     <MotionSection
       id="projects"
       eyebrow="Featured projects"
-      title="The work is presented as case studies, not thumbnails."
-      copy="go look all my  projects or u can find it in my github (tossdace) ."
+      title="Selected projects"
+      copy="Explore a selection of projects, from product ideas to systems research."
       className="bg-[#0B1114]/60"
     >
       <motion.div
@@ -764,7 +755,7 @@ function ProjectCard({ project }: { project: Project }) {
           <div className="flex h-full flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#04070a] via-[#0B1114] to-[#00FF88]/10 text-white/80">
             <FileText className="size-14 text-[#00FF88]" />
             <div className="max-w-xs text-center text-xs leading-6 text-[#f0fdf4]/70 font-mono">
-              [CASE_STUDY_PREVIEW_AVAILABLE]
+              Project preview unavailable.
             </div>
           </div>
         )}
@@ -813,15 +804,19 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
 
         <div className="mt-5 flex flex-wrap gap-2.5">
-          <Button asChild variant="secondary" size="sm">
-            <a href={cardRepo ?? project.links[0]?.href ?? "/"} target="_blank" rel="noreferrer noopener">
-              GitHub Repo
-              <ChevronRight className="size-4" aria-hidden="true" />
-            </a>
-          </Button>
-          {project.links.map((link) => (
-            <ActionLink key={link.label} link={link} />
-          ))}
+          {cardRepo && (
+            <Button asChild variant="secondary" size="sm">
+              <a href={cardRepo} target="_blank" rel="noreferrer noopener">
+                View on GitHub
+                <ChevronRight className="size-4" aria-hidden="true" />
+              </a>
+            </Button>
+          )}
+          {project.links
+            .filter((link) => !cardRepo || link.href !== cardRepo)
+            .map((link) => (
+              <ActionLink key={link.label} link={link} />
+            ))}
         </div>
       </div>
     </motion.article>
@@ -840,8 +835,8 @@ function Skills() {
     <MotionSection
       id="skills"
       eyebrow="Skill inventory"
-      title="No fake percentages. i have certifictes ,pinky promise i am not lying here."
-      copy="The stack is organized ME : interface craft, product logic, systems curiosity, and learning velocity."
+      title="Tools and topics I'm exploring"
+      copy="A snapshot of the tools I use and the areas I'm continuing to learn through projects."
     >
       <motion.div
         variants={revealVariants}
@@ -920,8 +915,8 @@ function InteractiveTimeline() {
     <MotionSection
       id="timeline"
       eyebrow="Timeline"
-      title="Milestones that explain momentum."
-      copy=" MY notable achievements and Awards."
+      title="Milestones, projects, and awards"
+      copy="A few milestones from my studies, projects, and competitions."
       className="bg-[#0B1114]/60"
     >
       <motion.div
@@ -1002,8 +997,8 @@ function ZenoSection() {
       id="zeno5"
       project={ZENO}
       icon={<Cpu />}
-      title="Zeno5 gets the flagship treatment."
-      copy="MY Bisgest project."
+      title="Zeno5 is my biggest project so far."
+      copy="I'm developing the emulator while exploring systems research, asset pipelines, and reverse engineering."
     />
   );
 }
@@ -1014,8 +1009,8 @@ function HirevoySection() {
       id="hirevoy"
       project={HIREVOY}
       icon={<Network />}
-      title="Hirevoy my fist Startup."
-      copy="The reason i learned web development vite Js etc ."
+      title="Hirevoy is my first startup project."
+      copy="I started Hirevoy while learning web development, including Vite.js."
       flip
     />
   );
@@ -1054,7 +1049,7 @@ function ProjectFeatureSection({
               <div className="flex h-full flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#06080A] via-[#0B1114] to-[#00FF88]/10 text-white/80 px-8 text-center">
                 <FileText className="size-14 text-[#00FF88]" />
                 <p className="max-w-lg text-xs leading-6 text-[#f0fdf4]/70 font-mono">
-                  [FLAGSHIP_PROJECT_SHOWCASE_PANEL]
+                  No project image is available yet.
                 </p>
               </div>
             )}
@@ -1099,7 +1094,7 @@ function ProjectFeatureSection({
 
       <div className="mt-6 grid gap-4 lg:grid-cols-3">
         <FeatureList title="Challenges" items={project.challenges} icon={<ScrollText />} />
-        <FeatureList title="Dev Timeline" items={project.timeline} icon={<Rocket />} />
+        <FeatureList title="Development timeline" items={project.timeline} icon={<Rocket />} />
         <FeatureList title="Future Plans" items={project.future} icon={<BookOpen />} />
       </div>
     </MotionSection>
@@ -1136,8 +1131,8 @@ function ChessSection() {
     <MotionSection
       id="chess"
       eyebrow="Chess"
-      title={`${chess.rating} rated calculation, translated into programming discipline.`}
-      copy="Chess is not a decorative hobby here. It is proof of patience, pattern recognition, and disciplined decision-making under uncertainty."
+      title="Chess has shaped how I approach difficult problems."
+      copy="Playing chess has helped me practice patience, pattern recognition, and decision-making when the next move isn't obvious."
       className="bg-[#0B1114]/60"
     >
       <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
@@ -1218,8 +1213,8 @@ function Achievements() {
     <MotionSection
       id="achievements"
       eyebrow="Achievements"
-      title="Achievement cards that say what was earned."
-      copy="The unlock style fits the game-inspired direction, while the claims stay concrete and verifiable."
+      title="Awards and achievements"
+      copy="A record of the awards and milestones included in my portfolio."
     >
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {achievements.map((achievement, index) => (
@@ -1303,8 +1298,8 @@ function GitHubPanel() {
     <MotionSection
       id="github"
       eyebrow="GitHub"
-      title="Dynamic repository signal, ready for the real account."
-      copy="Once the GitHub username is set, this section pulls public profile and recent repository data directly from GitHub."
+      title="My work on GitHub"
+      copy="Browse my public profile and recent repositories."
       className="bg-[#0B1114]/60"
     >
       <div className="cyber-glass relative rounded-2xl p-6 sm:p-8">
@@ -1315,11 +1310,10 @@ function GitHubPanel() {
               <GitBranch className="size-16 text-[#00FF88]/50" aria-hidden="true" />
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-white">GitHub profile not connected yet.</h3>
+              <h3 className="text-2xl font-bold text-white">GitHub profile unavailable.</h3>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-[#f0fdf4]/70">
-                Add `NEXT_PUBLIC_GITHUB_USERNAME` or a GitHub URL in the portfolio data file to
-                activate pinned-style repository cards, public repo count, followers, and recent
-                activity links.
+                The GitHub profile could not be loaded. You can still visit the repositories linked
+                in the project case studies.
               </p>
             </div>
           </div>
@@ -1404,33 +1398,45 @@ function MiniStat({ label, value }: { label: string; value: number }) {
 /* -------------------------------------------------------------------------- */
 
 function Contact() {
+  const primaryActions = contactActions.filter(
+    (action) => action.label === "Email" || action.label === "Resume",
+  );
+  const otherActions = contactActions.filter(
+    (action) => action.label !== "Email" && action.label !== "Resume",
+  );
+
   return (
     <MotionSection
       id="contact"
       eyebrow="Contact"
-      title="Ready for client work, internship conversations, and serious project collaboration."
-      copy="The conversion path is deliberately simple: see the work, understand the builder, then open a direct channel."
+      title="Have a project, internship opportunity, or idea to discuss?"
+      copy="If you'd like to work together or ask about a project, get in touch."
     >
       <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
         <div className="cyber-glass relative rounded-2xl p-6 sm:p-8">
           <PixelCornerBrackets />
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#00FF88]">
-            Build request
+            Say hello
           </p>
           <h3 className="mt-4 text-3xl font-black text-white sm:text-4xl">
-            Bring me a hard interface, a messy idea, or a product that needs taste and execution.
+            Have a challenging interface or an early idea? I&apos;d be glad to hear about it.
           </h3>
           <p className="mt-5 max-w-2xl text-base leading-8 text-[#f0fdf4]/80">
-            Dhyan is positioned for freelance web development first, with enough project depth to
-            also make internship recruiters pay attention.
+            I&apos;m open to freelance web projects, internship conversations, and thoughtful
+            collaborations.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <ContactButton action={contactActions[0]} icon={<Mail />} />
-            <ContactButton action={contactActions[1]} icon={<FileText />} />
+            {primaryActions.map((action) => (
+              <ContactButton
+                key={action.label}
+                action={action}
+                icon={action.label === "Email" ? <Mail /> : <FileText />}
+              />
+            ))}
           </div>
         </div>
         <div className="grid gap-3">
-          {contactActions.slice(2).map((action) => (
+          {otherActions.map((action) => (
             <ContactButton
               key={action.label}
               action={action}
@@ -1517,9 +1523,9 @@ function Footer() {
   return (
     <footer className="relative z-10 border-t border-[rgba(0,255,136,0.18)] bg-[#04070a]/90 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 text-xs font-mono text-[#f0fdf4]/50 sm:flex-row sm:items-center sm:justify-between">
-        <p>Dhyan Ajay — interactive neo-cyber portfolio.</p>
+        <p>Dhyan Ajay: an interactive portfolio.</p>
         <p className="uppercase tracking-[0.16em] text-[#00FF88]/70">
-          v2.0 / NEO_CYBER_PIXEL / 60FPS
+          MADE WITH CARE BY DHYAN AJAY
         </p>
       </div>
     </footer>

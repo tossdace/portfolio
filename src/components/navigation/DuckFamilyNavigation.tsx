@@ -51,8 +51,8 @@ export function DuckFamilyNavigation({
           aria-current={activeHref === "#top" ? "location" : undefined}
           onClick={() => setActiveHref("#top")}
         >
-          <DuckIllustration mother pose={0} />
-          <span className="duck-home-label">{profile.name}</span>
+          <DuckCharacter lead pose={0} />
+          <span className="duck-nav-plaque duck-home-label">{profile.name}</span>
         </a>
 
         {navigation.map((item, index) => (
@@ -64,8 +64,8 @@ export function DuckFamilyNavigation({
             aria-current={activeHref === item.href ? "location" : undefined}
             onClick={() => setActiveHref(item.href)}
           >
-            <DuckIllustration pose={index + 1} />
-            <span className="duck-nav-label">{item.label}</span>
+            <DuckCharacter pose={index + 1} />
+            <span className="duck-nav-plaque duck-nav-label">{item.label}</span>
           </a>
         ))}
       </nav>
@@ -83,60 +83,119 @@ export function DuckFamilyNavigation({
   );
 }
 
-function DuckIllustration({
-  mother = false,
-  pose,
-}: {
-  mother?: boolean;
-  pose: number;
-}) {
-  const wingPaths = [
-    "M31 42c8-11 24-10 31 0-8 7-21 8-31 0Z",
-    "M31 42c7-12 22-13 31-2-7 9-20 10-31 2Z",
-    "M31 42c9-10 24-8 31 3-9 6-23 6-31-3Z",
-    "M30 43c9-12 24-11 32 0-8 8-23 8-32 0Z",
-    "M31 42c8-11 22-9 31 2-9 7-22 6-31-2Z",
-  ];
-  const bobDelay = mother ? "0ms" : `${(pose % 5) * -170}ms`;
+function DuckCharacter({ lead = false, pose }: { lead?: boolean; pose: number }) {
+  const bobDelay = lead ? "0ms" : `${((pose - 1) % 5) * -150}ms`;
 
   return (
-    <svg
-      className={`duck-art${mother ? " duck-art-mother" : ""} duck-art-pose-${pose % 5}`}
-      viewBox="0 0 88 68"
-      role="img"
-      aria-hidden="true"
-      focusable="false"
-      style={{ "--duck-delay": bobDelay } as CSSProperties}
-    >
-      <ellipse className="duck-water-shadow" cx="45" cy="59" rx="27" ry="4" />
-      <path
-        className="duck-tail"
-        d="M65 43c9-9 13-8 17-6-2 6-7 10-15 11"
-      />
-      <path
-        className="duck-body"
-        d="M17 44c0-12 10-21 25-21 12 0 20 6 24 16 4 1 8 3 10 7-4 3-9 4-15 4H31c-8 0-14-2-14-6Z"
-      />
-      <path className="duck-wing" d={wingPaths[pose % wingPaths.length]} />
-      <path
-        className="duck-neck"
-        d="M26 31c-1-9 2-19 10-22 8-3 17 2 18 10 1 7-3 12-8 15"
-      />
-      {mother && <path className="duck-scarf" d="M28 33c7 5 15 5 22 0l3 5c-8 6-19 6-28 0Z" />}
-      <path className="duck-beak" d="M12 19c-5-2-9-1-11 2 3 4 8 6 14 5l5-3Z" />
-      <circle className="duck-eye" cx="25" cy="17" r="1.8" />
-      <circle className="duck-highlight" cx="24.5" cy="16.5" r="0.55" />
-      <path className="duck-leg" d="M37 51v5m15-5v5" />
-      <path className="duck-foot" d="M33 57h8m7 0h8" />
-      {mother && (
-        <g className="duck-blossom" aria-hidden="true">
-          <circle cx="49" cy="5" r="2.2" />
-          <circle cx="53" cy="7" r="2.2" />
-          <circle cx="51" cy="11" r="2.2" />
-          <circle cx="47" cy="9" r="2.2" />
-          <circle className="duck-blossom-center" cx="50" cy="8" r="1.2" />
-        </g>
-      )}
-    </svg>
+    <span className="duck-character">
+      <svg className="duck-water-ripple" viewBox="0 0 100 20" aria-hidden="true">
+        <ellipse cx="50" cy="10" rx="41" ry="5" />
+        <ellipse cx="50" cy="10" rx="29" ry="3" />
+      </svg>
+      <svg
+        className={`duck-art${lead ? " duck-art-lead" : ""} duck-art-pose-${pose}`}
+        viewBox="0 0 100 76"
+        aria-hidden="true"
+        focusable="false"
+        style={{ "--duck-delay": bobDelay } as CSSProperties}
+      >
+        <ellipse className="duck-water-shadow" cx="49" cy="66" rx="33" ry="4" />
+        {lead && (
+          <g className="duck-backpack">
+            <path d="M66 33c7-5 15-3 17 4v19H66Z" />
+            <path d="M66 39c-4 2-6 7-5 14l8 2V39Z" />
+            <path className="duck-pack-strap" d="M66 36c-5 5-6 13-3 19" />
+            <path className="duck-pack-buckle" d="M68 45h10v7H68z" />
+          </g>
+        )}
+        <path className="duck-tail" d="M70 48c10-9 15-8 19-6-2 7-8 11-17 12" />
+        <path
+          className="duck-body"
+          d="M19 51c0-15 12-25 30-25 14 0 23 7 27 19 5 1 9 4 11 8-5 4-11 5-18 5H35c-10 0-16-2-16-7Z"
+        />
+        <path
+          className="duck-wing"
+          d={[
+            "M37 49c7-12 24-12 33-1-8 9-23 10-33 1Z",
+            "M37 49c7-13 24-14 33-3-7 10-23 12-33 3Z",
+            "M37 48c9-11 25-9 33 3-10 7-24 7-33-3Z",
+            "M36 50c9-13 25-12 34 0-9 9-25 9-34 0Z",
+            "M37 49c8-12 23-10 33 2-10 8-24 7-33-2Z",
+          ][(pose - 1 + 5) % 5]}
+        />
+        <path className="duck-neck" d="M31 37c-2-11 2-23 12-27 9-4 19 2 20 12 1 8-3 14-9 18" />
+        {lead ? (
+          <g className="duck-lead-gear">
+            <path className="duck-cap" d="M35 13c3-8 11-11 19-8 5 2 8 6 9 11H35Z" />
+            <path className="duck-cap-brim" d="M32 14c7-3 20-3 30 0l-2 4H34Z" />
+            <path className="duck-goggle-band" d="M37 10c7-2 16-2 23 0" />
+            <circle className="duck-goggle" cx="43" cy="11" r="4.2" />
+            <circle className="duck-goggle" cx="55" cy="11" r="4.2" />
+            <path className="duck-scarf" d="M31 38c9 6 19 6 28 0l4 6c-10 7-23 7-33 0Z" />
+            <path className="duck-scarf-tail" d="M48 44c7 4 11 9 12 15-7-3-12-7-15-12Z" />
+          </g>
+        ) : (
+          <DucklingAccessory pose={pose} />
+        )}
+        <path className="duck-beak" d="M17 25c-6-2-11-1-14 3 4 5 10 7 17 5l6-4Z" />
+        <circle className="duck-eye" cx="32" cy="22" r="2" />
+        <circle className="duck-highlight" cx="31.5" cy="21.4" r="0.65" />
+        <path className="duck-leg" d="M42 58v6m17-6v6" />
+        <path className="duck-foot" d="M37 65h10m8 0h10" />
+        {lead && (
+          <g className="duck-lantern">
+            <path d="M81 44h11l-1 15h-9Z" />
+            <path d="M83 44c0-5 7-5 7 0" />
+            <path className="duck-lantern-light" d="m86.5 47 2.5 7h-5Z" />
+          </g>
+        )}
+      </svg>
+    </span>
   );
+}
+
+function DucklingAccessory({ pose }: { pose: number }) {
+  switch (pose) {
+    case 1:
+      return (
+        <g className="duckling-accessory duckling-scout-cap">
+          <path d="M39 12c3-7 10-9 16-6 4 2 6 5 7 9H39Z" />
+          <path d="M36 15c6-2 18-2 27 0l-2 3H38Z" />
+        </g>
+      );
+    case 2:
+      return (
+        <g className="duckling-accessory duckling-headphones">
+          <path d="M38 20c0-14 20-17 25-3" />
+          <rect x="36" y="16" width="5" height="9" rx="2" />
+          <rect x="59" y="13" width="5" height="9" rx="2" />
+        </g>
+      );
+    case 3:
+      return (
+        <g className="duckling-accessory duckling-pack">
+          <path d="M65 37c1-6 10-8 14-3v14H65Z" />
+          <path d="M65 40c-4 2-5 7-3 12h6V39Z" />
+          <path d="M67 41h9v6h-9z" />
+        </g>
+      );
+    case 4:
+      return (
+        <g className="duckling-accessory duckling-pilot-cap">
+          <path d="M38 14c3-8 12-10 19-6 4 2 6 5 6 9H38Z" />
+          <path d="M36 16c7-2 18-2 28 0l-2 3H38Z" />
+          <path d="M45 8h8" />
+        </g>
+      );
+    default:
+      return (
+        <g className="duckling-accessory duckling-blossom">
+          <circle cx="60" cy="8" r="3" />
+          <circle cx="65" cy="11" r="3" />
+          <circle cx="62" cy="16" r="3" />
+          <circle cx="57" cy="13" r="3" />
+          <circle className="duck-blossom-center" cx="61" cy="12" r="1.6" />
+        </g>
+      );
+  }
 }

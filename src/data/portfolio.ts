@@ -38,7 +38,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dhyanajay.vercel.app",
   title: "Dhyan Ajay | Portfolio",
   description:
-    "Am Dhyan Ajay just computer science student, founder of Hirevoy, and builder of Zeno5 Emulator.",
+    "Dhyan Ajay is a computer science student, founder of Hirevoy, and creator of the Zeno5 Emulator.",
 };
 
 export const profile = {
@@ -46,15 +46,15 @@ export const profile = {
   age: 19,
   role: "Computer Science Student",
   headline:
-    "I build everthing that comes to my mind , and systems experiments that turn curiosity into usable software.",
+    "I turn ideas and systems experiments into useful software, guided by curiosity and a love of building.",
   shortPitch:
     "A builder for clients who want more than a template: polished interfaces, careful implementation, and product thinking from the first screen.",
   founderOf: "Hirevoy",
   currentProject: "Zeno5 Emulator",
   currentQuest: "Turn experimental ideas into polished, testable products",
-  currentLearning: ["Asset ripping", "Reverse engineering"],
+  currentLearning: ["Asset extraction", "Reverse engineering"],
   hobby: "Chess",
-  chessRating: "2029 elo (Chess.com)",
+  chessRating: "2,029 Elo (Chess.com)",
   chessPlatform: "Chess.com",
   personality: ["Curious", "Builder", "Problem Solver", "Always Learning"],
   contact: {
@@ -62,7 +62,7 @@ export const profile = {
     github: "https://github.com/tossdace",
     linkedin: "https://www.linkedin.com/in/dhyan-ajay/",
     chess: "https://www.chess.com/member/dhyan-ajay",
-    resume: "dm",
+    resume: undefined,
   },
 };
 
@@ -80,12 +80,12 @@ export const projects: Project[] = [
     title: "Zeno5 Emulator",
     eyebrow: "Flagship build",
     status: "In development",
-    image: "/assets/zeno5.png",
+    image: undefined,
     repo: "https://github.com/tossdace/Zeno5",
     summary:
-      "A long-term emulator project that combines systems research, asset pipeline experiments, and reverse engineering practice into a serious learning build.",
+      "An ongoing emulator project exploring systems research, asset pipelines, and reverse engineering.",
     impact:
-      "The project shows low-level curiosity, patience with hard technical unknowns, and the ability to document a complex build in public-ready form.",
+      "I use Zeno5 to explore emulator architecture, asset pipelines, and reverse engineering through a long-term project.",
     techStack: [
       "Systems design",
       "Reverse engineering",
@@ -132,11 +132,11 @@ export const projects: Project[] = [
       problem:
         "Emulator projects are intimidating because the visible result arrives late. The portfolio page needs to make the technical journey legible before a polished demo exists.",
       research:
-        "The research layer focuses on asset ripping, reverse engineering habits, emulator architecture vocabulary, and a repeatable way to turn findings into implementation tasks.",
+        "The research focuses on asset extraction, reverse-engineering workflows, emulator architecture, and ways to turn findings into development tasks.",
       planning:
         "The project is framed around progressive disclosure: first clarify scope, then document subsystems, then expose devlogs and visual proof as the build matures.",
       architecture:
-        "The public architecture is designed as modules: research notes, asset pipeline, execution core, debug surfaces, gallery, and release roadmap.",
+        "The planned structure covers research notes, the asset pipeline, the execution core, debugging tools, a gallery, and a release roadmap.",
       development:
         "Current development emphasis is on learning, documentation quality, and building the confidence needed to turn the system into a shareable prototype.",
       challenges: [
@@ -145,7 +145,7 @@ export const projects: Project[] = [
         "Balancing technical depth with recruiter/client readability.",
       ],
       results:
-        "The page positions Zeno5 as the flagship proof of depth: it tells visitors what is being learned, why it matters, and how the project will become demonstrable.",
+        "Zeno5 is in development. This case study outlines its current focus and the work still ahead.",
       improvements: [
         "Add real screenshots and short videos.",
         "Publish the first devlog with a dated milestone.",
@@ -165,9 +165,9 @@ export const projects: Project[] = [
     status: "Founder-led product",
     image: "/assets/hirev.png",
     summary:
-      "A startup direction around making hiring journeys easier to understand, present, and evaluate for people building real things.",
+      "A hiring product concept focused on helping people present their work and making hiring journeys easier to understand and evaluate.",
     impact:
-      "Hirevoy gives the portfolio a founder signal: Dhyan is not only learning tools, he is practicing product framing, roadmap thinking, and market empathy.",
+      "Building Hirevoy involves thinking about product direction, roadmap planning, and the needs of people using hiring platforms.",
     techStack: [
       "Product strategy",
       "Web platform design",
@@ -181,7 +181,7 @@ export const projects: Project[] = [
         disabledReason: "Add the product URL when a public page is ready.",
       },
       {
-        label: "Roadmap",
+        label: "Case study",
         href: "/projects/hirevoy",
       },
     ],
@@ -227,7 +227,7 @@ export const projects: Project[] = [
         "Turning an idea into a credible product system.",
       ],
       results:
-        "Hirevoy is positioned as a serious founder track rather than a vague side project, with room for progress updates, screenshots, and user validation.",
+        "Hirevoy is a founder-led project in progress. Its direction, roadmap, and product details will develop as the work continues.",
       improvements: [
         "Write a sharper one-sentence positioning line after audience validation.",
         "Add a public roadmap with dated milestones.",
@@ -248,7 +248,7 @@ export const projects: Project[] = [
     category: "Hardware + AI",
     repo: "https://github.com/tossdace/Sign-language-gloves-",
     summary:
-      "An AI-powered smart glove that recognizes sign language using sensors and machine learning to improve communication for hearing and speech impaired users.",
+      "An AI-powered smart glove that uses sensors and machine learning to recognize sign language and support communication for people with hearing or speech impairments.",
     impact:
       "The project showcases embedded AI that bridges hardware design, sensor fusion, and accessibility-driven product thinking.",
     techStack: [
@@ -296,7 +296,7 @@ export const projects: Project[] = [
     ],
     caseStudy: {
       problem:
-        "Communication barriers remain a major accessibility challenge for the hearing and speech impaired, especially in everyday situations.",
+        "Communication barriers remain an accessibility challenge for people who are deaf or hard of hearing, as well as people with speech disabilities, particularly in everyday situations.",
       research:
         "The research focused on gesture detection, sensor placement, lightweight model selection, and real-time embedded inference.",
       planning:
@@ -327,7 +327,7 @@ export const projects: Project[] = [
     category: "AI Assistant",
     repo: "https://github.com/tossdace/project_yukino",
     summary:
-      "A desktop AI assistant built for voice interaction, automation, and local AI capabilities using modern AI tooling.",
+      "A desktop AI assistant for voice interaction, automation, and local AI workflows.",
     impact:
       "The project explores personal productivity through voice-driven workflows and automation powered by local AI models.",
     techStack: [
@@ -403,11 +403,11 @@ export const projects: Project[] = [
     title: "Portfolio OS",
     eyebrow: "This website",
     status: "Interactive v1",
-    image: "/assets/hero-command-deck.png",
+    image: undefined,
     summary:
-      "A premium interactive portfolio system designed to sell freelance skill, surface serious projects, and make Dhyan memorable without becoming gimmicky.",
+      "An interactive portfolio that brings Dhyan's projects, skills, and contact information together in one place.",
     impact:
-      "The site itself becomes proof of frontend taste: performance-minded, accessible, responsive, and built around a focused hire-me journey.",
+      "The site brings project case studies, section navigation, motion, and contact links together in one interface.",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -417,7 +417,7 @@ export const projects: Project[] = [
       "Lenis",
     ],
     links: [
-      { label: "Explore", href: "/" },
+      { label: "View portfolio", href: "/" },
       {
         label: "Source",
         disabledReason: "Add the portfolio repository URL after publishing.",
@@ -456,7 +456,7 @@ export const projects: Project[] = [
       planning:
         "The site is organized around the visitor journey: arrival, curiosity, exploration, trust, and hiring intent.",
       architecture:
-        "The app uses Next.js app routes, a central TypeScript content model, generated local image assets, client-side motion components, and dynamic project pages.",
+        "The app uses Next.js routes, a central TypeScript content model, client-side motion, and dynamic project pages.",
       development:
         "The first version focuses on the homepage, Zeno5, Hirevoy, achievements, GitHub-ready integration, Easter eggs, and a configurable contact surface.",
       challenges: [
@@ -465,7 +465,7 @@ export const projects: Project[] = [
         "Making mobile feel designed, not merely compressed.",
       ],
       results:
-        "The portfolio now has a premium interactive foundation with real content hooks, case-study routes, and clear places to add public links.",
+        "The portfolio includes an interactive homepage, project case-study routes, and contact links.",
       improvements: [
         "Replace pending contact links with real URLs.",
         "Add real project screenshots and videos.",
@@ -502,7 +502,7 @@ export const skillGroups = [
   },
   {
     label: "Learning",
-    items: ["Asset ripping", "Reverse engineering", "Emulator architecture", "Technical writing"],
+    items: ["Asset extraction", "Reverse engineering", "Emulator architecture", "Technical writing"],
   },
 ];
 
@@ -511,25 +511,25 @@ export const timeline = [
     year: "2024",
     title: "IHRD Tech Fest",
     type: "Award",
-    detail: "Third Prize - a competitive milestone that belongs near the trust-building portion of the portfolio.",
+    detail: "Dhyan earned third place at IHRD Tech Fest.",
   },
   {
     year: "2025",
     title: "KMEA College Tech Fest",
     type: "Award",
-    detail: "First Prize - the strongest achievement currently provided and a clear proof point for recruiters.",
+    detail: "Dhyan earned first place at KMEA College Tech Fest.",
   },
   {
     year: "Now",
     title: "Zeno5 Emulator",
     type: "Flagship project",
-    detail: "Current main project centered on emulator research, asset pipeline learning, and reverse engineering.",
+    detail: "Dhyan's current main project, focused on emulator research, asset pipelines, and reverse engineering.",
   },
   {
     year: "Now",
     title: "Hirevoy",
     type: "Founder track",
-    detail: "Startup direction that shows product ambition, roadmap thinking, and founder energy.",
+    detail: "Dhyan's founder-led project, with its product direction and roadmap in progress.",
   },
 ];
 
@@ -547,7 +547,7 @@ export const achievements = [
     rarity: "Bronze",
   },
   {
-    title: "2029 Rated",
+    title: "2,029 Elo",
     context: "Chess.com",
     year: "Current",
     rarity: "Strategist",
@@ -576,27 +576,25 @@ export const contactActions = [
   {
     label: "Email",
     href: profile.contact.email ? `mailto:${profile.contact.email}` : undefined,
-    value: profile.contact.email || "Add email in src/data/portfolio.ts",
+    value: profile.contact.email || "Email address not provided",
   },
-  {
-    label: "Resume",
-    href: profile.contact.resume || undefined,
-    value: profile.contact.resume || "Add resume PDF to public/resume.pdf",
-  },
+  ...(profile.contact.resume
+    ? [{ label: "Resume", href: profile.contact.resume, value: "Download resume" }]
+    : []),
   {
     label: "GitHub",
     href: profile.contact.github || undefined,
-    value: profile.contact.github || "Connect GitHub profile",
+    value: profile.contact.github || "GitHub profile not provided",
   },
   {
     label: "LinkedIn",
     href: profile.contact.linkedin || undefined,
-    value: profile.contact.linkedin || "Connect LinkedIn profile",
+    value: profile.contact.linkedin || "LinkedIn profile not provided",
   },
   {
     label: "Chess.com",
     href: profile.contact.chess || undefined,
-    value: profile.contact.chess || "Connect Chess.com profile",
+    value: profile.contact.chess || "Chess.com profile not provided",
   },
 ];
 
