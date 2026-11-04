@@ -461,13 +461,24 @@ function SiteNav({
   mobileOpen,
   setMobileOpen,
   onTerminal,
+  visible,
 }: {
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
   onTerminal: () => void;
+  visible: boolean;
 }) {
   return (
-    <header className="fixed inset-x-0 top-3 z-50 px-4 sm:px-6 lg:px-8">
+    <header
+      aria-hidden={!visible}
+      inert={!visible}
+      className={cn(
+        "fixed inset-x-0 top-3 z-50 px-4 transition-[opacity,transform] duration-300 sm:px-6 lg:px-8",
+        visible
+          ? "translate-y-0 opacity-100"
+          : "pointer-events-none -translate-y-3 opacity-0",
+      )}
+    >
       <nav
         aria-label="Primary navigation"
         className="cyber-glass mx-auto flex h-14 max-w-6xl items-center justify-between rounded-2xl px-4 sm:px-6 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
