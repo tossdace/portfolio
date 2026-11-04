@@ -508,6 +508,12 @@
   transition: background 180ms ease, transform 180ms ease;
 }
 
+.duck-nav-music-wrap {
+  position: relative;
+  flex: 0 0 auto;
+  pointer-events: auto;
+}
+
 .duck-nav-music {
   pointer-events: auto;
   display: grid;
@@ -526,6 +532,23 @@
 .duck-nav-terminal svg,
 .duck-nav-music > svg { width: 16px; height: 16px; }
 .duck-nav-audio { display: none; }
+.duck-nav-music-loading { animation: duck-music-loading 900ms linear infinite; }
+.duck-nav-music-prompt {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  width: max-content;
+  max-width: min(220px, calc(100vw - 24px));
+  padding: 6px 9px;
+  border: 1px solid rgba(236, 201, 231, 0.2);
+  border-radius: 999px;
+  background: rgba(19, 13, 23, 0.9);
+  color: #f2c6da;
+  font-size: 11px;
+  line-height: 1.2;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  pointer-events: none;
+}
 .duck-nav-music:hover { background: rgba(237, 183, 210, 0.16); transform: translateY(-2px); }
 .duck-nav-music[aria-pressed="true"] { color: #f3d5ff; }
 .duck-nav-music:disabled { cursor: wait; opacity: 0.72; }
@@ -557,6 +580,8 @@
   from { transform: scaleY(0.48); opacity: 0.68; }
   to { transform: scaleY(1); opacity: 1; }
 }
+
+@keyframes duck-music-loading { to { transform: rotate(360deg); } }
 
 @media (max-width: 640px) {
   .duck-nav-header {
@@ -598,7 +623,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .duck-art, .duck-water-ripple ellipse, .duck-nav-music-wave path { animation: none; transition: none; }
+  .duck-art, .duck-water-ripple ellipse, .duck-nav-music-wave path,
+  .duck-nav-music-loading { animation: none; transition: none; }
   .duck-nav-home:hover .duck-art,
   .duck-nav-home:focus-visible .duck-art,
   .duck-nav-item:hover .duck-art,

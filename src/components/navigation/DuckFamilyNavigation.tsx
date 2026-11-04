@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { Music2, Terminal } from "lucide-react";
+import { LoaderCircle, Music2, Terminal } from "lucide-react";
 import { navigation, profile } from "@/data/portfolio";
 
 interface DuckFamilyNavigationProps {
@@ -12,26 +12,36 @@ export function DuckFamilyNavigation({
   onTerminal,
 }: DuckFamilyNavigationProps) {
   const [activeHref, setActiveHref] = useState("#top");
-  const [musicPlaying, setMusicPlaying] = useState(false);
-  const [musicStarting, setMusicStarting] = useState(false);
+  const [musicState, setMusicState] = useState<"loading" | "playing" | "off">("loading");
+  const [musicAudible, setMusicAudible] = useState(false);
   const [musicError, setMusicError] = useState("");
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const fadeFrameRef = useRef<number | null>(null);
-  const musicRequestedRef = useRef(false);
-  const autoplayAttemptedRef = useRef(false);
+  const cleanupTimerRef = useRef<number | null>(null);
+  const playPromiseRef = useRef<Promise<void> | null>(null);
+  const interactionPendingRef = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    if (cleanupTimerRef.current !== null) {
+      window.clearTimeout(cleanupTimerRef.current);
+      cleanupTimerRef.current = null;
+    }
 
     audio.loop = true;
-    audio.volume = 0.18;
+    audio.muted = true;
+    audio.volume = 0;
 
     return () => {
       if (fadeFrameRef.current !== null) {
         cancelAnimationFrame(fadeFrameRef.current);
       }
-      audio.pause();
+      cleanupTimerRef.current = window.setTimeout(() => {
+        audio.pause();
+        cleanupTimerRef.current = null;
+      }, 0);
     };
   }, []);
 
@@ -104,44 +114,75 @@ export function DuckFamilyNavigation({
     fadeFrameRef.current = requestAnimationFrame(animateVolume);
   }, []);
 
+  const requestPlayback = useCallback((audio: HTMLAudioElement) => {
+    if (!playPromiseRef.current) {
+      let pending: Promise<void>;
+      try {
+        pending = audio.play();
+      } catch (error) {
+        pending = Promise.reject(error);
+      }
+      playPromiseRef.current = pending;
+      const clearPending = () => {
+        if (playPromiseRef.current === pending) playPromiseRef.current = null;
+      };
+      void pending.then(clearPending, clearPending);
+    }
+    return playPromiseRef.current;
+  }, []);
+
   const toggleMusic = async () => {
     const audio = audioRef.current;
-    if (!audio || musicStarting) return;
+    if (!audio || interactionPendingRef.current) return;
 
     setMusicError("");
 
-    if (musicPlaying) {
-      musicRequestedRef.current = false;
-      setMusicPlaying(false);
+    if (musicState === "playing" && musicAudible) {
+      setMusicState("off");
+      setMusicAudible(false);
       fadeVolumeTo(audio, 0, () => {
-        if (!musicRequestedRef.current) audio.pause();
+        audio.pause();
       });
       return;
     }
 
-    setMusicStarting(true);
+    interactionPendingRef.current = true;
+    setMusicState("loading");
     audio.loop = true;
-
-    if (audio.paused) audio.volume = 0;
+    audio.muted = false;
+    audio.volume = 0;
 
     try {
-      if (audio.paused) await audio.play();
-      musicRequestedRef.current = true;
-      setMusicPlaying(true);
+      if (audio.paused) {
+        const autoplayWasPending = playPromiseRef.current !== null;
+        try {
+          await requestPlayback(audio);
+        } catch (error) {
+          if (!autoplayWasPending) throw error;
+          await requestPlayback(audio);
+        }
+      }
+      setAutoplayBlocked(false);
+      setMusicAudible(true);
+      setMusicState("playing");
       fadeVolumeTo(audio, 0.18);
     } catch {
-      musicRequestedRef.current = false;
       audio.pause();
+      audio.muted = true;
       audio.volume = 0;
-      setMusicError("Music could not start. Please try again.");
+      setAutoplayBlocked(true);
+      setMusicAudible(false);
+      setMusicState("off");
+      setMusicError("Tap to enable island music");
     } finally {
-      setMusicStarting(false);
+      interactionPendingRef.current = false;
     }
   };
 
   const handleAudioError = () => {
     const audio = audioRef.current;
-    musicRequestedRef.current = false;
+    setAutoplayBlocked(false);
+    setMusicAudible(false);
     if (fadeFrameRef.current !== null) {
       cancelAnimationFrame(fadeFrameRef.current);
       fadeFrameRef.current = null;
@@ -150,54 +191,31 @@ export function DuckFamilyNavigation({
       audio.pause();
       audio.volume = 0;
     }
-    setMusicPlaying(false);
-    setMusicStarting(false);
+    setMusicState("off");
     setMusicError("Music could not load. Please try again later.");
   };
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio || autoplayAttemptedRef.current) return;
-
-    autoplayAttemptedRef.current = true;
+    if (!audio) return;
     audio.loop = true;
+    audio.muted = true;
     audio.volume = 0;
-    setMusicStarting(true);
+    setMusicState("loading");
 
-    audio.play().then(() => {
-      musicRequestedRef.current = true;
-      setMusicPlaying(true);
-      fadeVolumeTo(audio, 0.18);
+    requestPlayback(audio).then(() => {
+      setMusicAudible(false);
+      setMusicState("playing");
     }).catch(() => {
       audio.pause();
+      audio.muted = true;
       audio.volume = 0;
-      setMusicError("Autoplay was blocked. Press play to start ambient music.");
-    }).finally(() => {
-      setMusicStarting(false);
+      setMusicAudible(false);
+      setMusicState("off");
+      setAutoplayBlocked(true);
+      setMusicError("Tap to enable island music");
     });
-
-    const startAfterInteraction = () => {
-      if (musicRequestedRef.current || !audio.paused) return;
-
-      audio.volume = 0;
-      audio.play().then(() => {
-        musicRequestedRef.current = true;
-        setMusicPlaying(true);
-        setMusicError("");
-        fadeVolumeTo(audio, 0.18);
-      }).catch(() => {
-        // Keep the visible play control available if playback is still blocked.
-      });
-    };
-
-    window.addEventListener("pointerdown", startAfterInteraction, { once: true });
-    window.addEventListener("keydown", startAfterInteraction, { once: true });
-
-    return () => {
-      window.removeEventListener("pointerdown", startAfterInteraction);
-      window.removeEventListener("keydown", startAfterInteraction);
-    };
-  }, [fadeVolumeTo]);
+  }, [requestPlayback]);
 
   return (
     <header className="duck-nav-header">
@@ -228,31 +246,35 @@ export function DuckFamilyNavigation({
         ))}
       </nav>
 
+      <div className="duck-nav-music-wrap">
       <button
         className="duck-nav-music"
         type="button"
         onClick={toggleMusic}
-        disabled={musicStarting}
         aria-label={
-          musicStarting
-            ? "Starting ambient music"
-            : musicPlaying
-              ? "Pause ambient music"
-              : musicError
+          musicState === "loading"
+            ? "Loading ambient music"
+            : musicState === "playing"
+              ? musicAudible ? "Pause ambient music" : "Enable ambient music"
+              : autoplayBlocked || musicError
                 ? "Retry ambient music"
                 : "Play ambient music"
         }
-        aria-pressed={musicPlaying}
+        aria-pressed={musicState === "playing" && musicAudible}
         aria-describedby={musicError ? "duck-music-status" : undefined}
         title={
-          musicStarting
-            ? "Starting ambient music"
-            : musicPlaying
+          musicState === "loading"
+            ? "Loading ambient music"
+            : musicState === "playing" && !musicAudible
+              ? "Tap to enable island music"
+              : musicState === "playing" && musicAudible
               ? "Pause ambient music"
               : "Play ambient music"
         }
       >
-        {musicPlaying ? (
+        {musicState === "loading" ? (
+          <LoaderCircle className="duck-nav-music-loading" aria-hidden="true" />
+        ) : musicState === "playing" ? (
           <svg
             className="duck-nav-music-wave"
             viewBox="0 0 24 24"
@@ -269,6 +291,10 @@ export function DuckFamilyNavigation({
           <Music2 aria-hidden="true" />
         )}
       </button>
+      {autoplayBlocked && musicState === "off" && (
+        <span className="duck-nav-music-prompt">Tap to enable island music</span>
+      )}
+      </div>
 
       <button
         className="duck-nav-terminal"
@@ -284,7 +310,6 @@ export function DuckFamilyNavigation({
         className="duck-nav-audio"
         src="/media/ambient-theme.mp3"
         loop
-        autoPlay
         preload="auto"
         aria-hidden="true"
         tabIndex={-1}
