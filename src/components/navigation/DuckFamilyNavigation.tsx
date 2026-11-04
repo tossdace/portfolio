@@ -175,6 +175,28 @@ export function DuckFamilyNavigation({
     }).finally(() => {
       setMusicStarting(false);
     });
+
+    const startAfterInteraction = () => {
+      if (musicRequestedRef.current || !audio.paused) return;
+
+      audio.volume = 0;
+      audio.play().then(() => {
+        musicRequestedRef.current = true;
+        setMusicPlaying(true);
+        setMusicError("");
+        fadeVolumeTo(audio, 0.18);
+      }).catch(() => {
+        // Keep the visible play control available if playback is still blocked.
+      });
+    };
+
+    window.addEventListener("pointerdown", startAfterInteraction, { once: true });
+    window.addEventListener("keydown", startAfterInteraction, { once: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", startAfterInteraction);
+      window.removeEventListener("keydown", startAfterInteraction);
+    };
   }, [fadeVolumeTo]);
 
   return (
@@ -262,7 +284,8 @@ export function DuckFamilyNavigation({
         className="duck-nav-audio"
         src="/media/ambient-theme.mp3"
         loop
-        preload="none"
+        autoPlay
+        preload="auto"
         aria-hidden="true"
         tabIndex={-1}
         onError={handleAudioError}
