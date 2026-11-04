@@ -25,6 +25,7 @@ export default function Hero({ bootDone = true }: HeroProps) {
   useEffect(() => {
     if (!bootDone || hasAnimated.current) return;
     hasAnimated.current = true;
+    const isSmallScreen = window.matchMedia("(max-width: 760px)").matches;
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -58,15 +59,19 @@ export default function Hero({ bootDone = true }: HeroProps) {
       );
       gsap.fromTo(
         ".dhyan-scene-wrap",
-        { opacity: 0, scale: 0.9, y: 35 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 1.6,
-          delay: 0.05,
-          ease: "power3.out",
-        }
+        isSmallScreen
+          ? { opacity: 0 }
+          : { opacity: 0, scale: 0.9, y: 35 },
+        isSmallScreen
+          ? { opacity: 1, duration: 1.1, delay: 0.05, ease: "power3.out" }
+          : {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 1.6,
+              delay: 0.05,
+              ease: "power3.out",
+            }
       );
     }, root);
 
@@ -93,12 +98,12 @@ export default function Hero({ bootDone = true }: HeroProps) {
         >
           <video
             className="dhyan-scene-video"
-            autoPlay={motionAllowed}
+            autoPlay={motionAllowed && bootDone}
             muted
             loop
             playsInline
-            preload="metadata"
-            poster="/media/floating-island-poster.png"
+            preload={bootDone ? "metadata" : "none"}
+            poster="/media/floating-island-poster.webp"
             onPlaying={() => setSceneReady(true)}
             onError={() => setSceneReady(false)}
             aria-hidden="true"
