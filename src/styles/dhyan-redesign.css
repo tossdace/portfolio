@@ -486,6 +486,7 @@
 
 .duck-nav-home:focus-visible,
 .duck-nav-item:focus-visible,
+.duck-nav-music:focus-visible,
 .duck-nav-terminal:focus-visible {
   outline: 2px solid #f4c0d8;
   outline-offset: 3px;
@@ -507,7 +508,39 @@
   transition: background 180ms ease, transform 180ms ease;
 }
 
-.duck-nav-terminal svg { width: 16px; height: 16px; }
+.duck-nav-music {
+  pointer-events: auto;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border: 1px solid rgba(236, 201, 231, 0.25);
+  border-radius: 50%;
+  background: rgba(19, 13, 23, 0.42);
+  color: #f2c6da;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease, color 180ms ease;
+}
+
+.duck-nav-terminal svg,
+.duck-nav-music > svg { width: 16px; height: 16px; }
+.duck-nav-audio { display: none; }
+.duck-nav-music:hover { background: rgba(237, 183, 210, 0.16); transform: translateY(-2px); }
+.duck-nav-music[aria-pressed="true"] { color: #f3d5ff; }
+.duck-nav-music:disabled { cursor: wait; opacity: 0.72; }
+.duck-nav-music-wave path {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.8;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: duck-music-wave 900ms ease-in-out infinite alternate;
+}
+.duck-nav-music-wave path:nth-child(2),
+.duck-nav-music-wave path:nth-child(4) { animation-delay: 140ms; }
+.duck-nav-music-wave path:nth-child(3) { animation-delay: 280ms; }
+.duck-nav-music-wave path:nth-child(5) { animation-delay: 420ms; }
 .duck-nav-terminal:hover { background: rgba(237, 183, 210, 0.16); transform: translateY(-2px); }
 
 @keyframes duck-family-bob {
@@ -518,6 +551,11 @@
 @keyframes duck-ripple {
   0%, 100% { opacity: 0.38; transform: scaleX(0.9); }
   50% { opacity: 0.8; transform: scaleX(1.05); }
+}
+
+@keyframes duck-music-wave {
+  from { transform: scaleY(0.48); opacity: 0.68; }
+  to { transform: scaleY(1); opacity: 1; }
 }
 
 @media (max-width: 640px) {
@@ -531,11 +569,13 @@
   }
 
   .duck-family-nav {
+    width: calc(100% - 84px);
+    flex: 0 0 calc(100% - 84px);
     justify-content: flex-start;
     gap: 8px;
     overflow-x: auto;
     overscroll-behavior-x: contain;
-    padding: 0 45px 4px 2px;
+    padding: 0 2px 4px;
     scrollbar-width: none;
     scroll-snap-type: x proximity;
     mask-image: linear-gradient(90deg, #000 0%, #000 92%, transparent 100%);
@@ -551,18 +591,22 @@
   .duck-nav-home .duck-water-ripple { width: 78px; height: 16px; }
   .duck-home-label { min-width: 108px; font-size: 11px; }
   .duck-nav-label { min-width: 74px; min-height: 26px; padding: 6px 9px 5px; font-size: 10px; }
+  .duck-nav-music { position: absolute; top: 13px; right: 49px; width: 32px; height: 32px; }
+  .duck-nav-music > svg { width: 15px; height: 15px; }
   .duck-nav-terminal { position: absolute; top: 13px; right: 9px; width: 32px; height: 32px; }
   .dhyan-grain { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .duck-art, .duck-water-ripple ellipse { animation: none; transition: none; }
+  .duck-art, .duck-water-ripple ellipse, .duck-nav-music-wave path { animation: none; transition: none; }
   .duck-nav-home:hover .duck-art,
   .duck-nav-home:focus-visible .duck-art,
   .duck-nav-item:hover .duck-art,
   .duck-nav-item:focus-visible .duck-art,
   .duck-nav-terminal:hover { transform: none; }
+  .duck-nav-music:hover { transform: none; }
   .duck-home-label,
   .duck-nav-label,
-  .duck-nav-terminal { transition: none; }
+  .duck-nav-terminal,
+  .duck-nav-music { transition: none; }
 }
