@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --dhyan-bg: #09070b;
+  --dhyan-ink: #f7eff5;
+  --dhyan-muted: #a99ba8;
+  --dhyan-pink: #f3a8d1;
+  --dhyan-violet: #a98be9;
+  --dhyan-line: rgba(255, 235, 249, .16);
+}
+
+.dhyan-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: min(900px, 100svh);
+  height: 100svh;
+  overflow: hidden;
+  color: var(--dhyan-ink);
+  background:
+    radial-gradient(ellipse at 50% 62%, rgba(100, 48, 94, .26), transparent 38%),
+    radial-gradient(ellipse at 50% 100%, rgba(87, 50, 113, .22), transparent 48%),
+    var(--dhyan-bg);
+  font-family: 'Manrope', sans-serif;
+}
+.dhyan-hero * { box-sizing: border-box; }
+.dhyan-grain, .dhyan-vignette { position: absolute; inset: 0; pointer-events: none; }
+.dhyan-grain { z-index: 5; opacity: .12; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
+.dhyan-vignette { z-index: 2; background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.52) 100%); }
+.dhyan-topbar { position: absolute; z-index: 8; top: 0; left: 0; right: 0; height: 86px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(22px, 5vw, 78px); border-bottom: 1px solid rgba(255,255,255,.075); }
+.dhyan-mark { color: var(--dhyan-ink); font-size: 25px; font-weight: 800; letter-spacing: -.12em; text-decoration: none; }
+.dhyan-mark span { color: var(--dhyan-pink); }
+.dhyan-nav { display: flex; gap: clamp(20px, 3vw, 46px); }
+.dhyan-nav a, .dhyan-status, .dhyan-orbit-label, .dhyan-kicker, .dhyan-button, .dhyan-meta { font-family: 'DM Mono', monospace; }
+.dhyan-nav a { color: #d2c5d0; font-size: 11px; text-decoration: none; transition: color .25s; }
+.dhyan-nav a:hover { color: var(--dhyan-pink); }
+.dhyan-status { color: #b7aab6; font-size: 9px; letter-spacing: .1em; }
+.dhyan-status i { display: inline-block; width: 6px; height: 6px; margin: 0 9px 1px 0; border-radius: 50%; background: #a6e5ba; box-shadow: 0 0 12px #a6e5ba; }
+.dhyan-scene-wrap { position: absolute; z-index: 1; inset: 4% 0 0; opacity: 0; }
+.dhyan-scene {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 5, 10, .16) 0%, rgba(7, 5, 10, .08) 43%, rgba(7, 5, 10, .42) 100%),
+    url("/images/dhyan-floating-island.png") center 54% / cover no-repeat;
+}
+.dhyan-scene canvas { background: transparent !important; }
+.dhyan-scene-loading { background: radial-gradient(ellipse at 50% 66%, rgba(203,105,171,.28), transparent 45%); }
+.dhyan-orbit-label { position: absolute; z-index: 4; top: 48%; color: rgba(245,220,240,.54); font-size: 8px; line-height: 1.8; letter-spacing: .12em; }
+.dhyan-orbit-left { left: clamp(22px, 5vw, 78px); }
+.dhyan-orbit-right { right: clamp(22px, 5vw, 78px); text-align: right; }
+.dhyan-hero-content { position: absolute; z-index: 6; top: 48%; left: 50%; width: min(900px, 92vw); transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+.dhyan-kicker { margin: 0 0 24px; color: #e6bfd9; font-size: 9px; letter-spacing: .19em; }
+.dhyan-kicker span { margin-right: 8px; color: var(--dhyan-pink); font-size: 13px; }
+.dhyan-title { margin: 0; font-size: clamp(76px, 15.8vw, 218px); line-height: .78; font-weight: 800; letter-spacing: -.105em; text-shadow: 0 8px 70px rgba(9, 4, 12, .55); }
+.dhyan-title-mask { display: block; overflow: hidden; padding: 0 .08em .12em 0; }
+.dhyan-title-line { display: block; }
+.dhyan-title-second { margin-top: 8px; }
+.dhyan-title-period { color: var(--dhyan-pink); }
+.dhyan-copy { margin: 28px auto 0; color: #d5c7d2; font-size: clamp(12px, 1.2vw, 14px); line-height: 1.9; text-shadow: 0 2px 15px #09070b; }
+.dhyan-actions { display: flex; justify-content: center; gap: 12px; margin-top: 26px; pointer-events: auto; }
+.dhyan-button { display: inline-flex; align-items: center; gap: 24px; padding: 14px 18px; border: 1px solid rgba(255,255,255,.28); border-radius: 2px; color: #fff2fa; font-size: 9px; letter-spacing: .08em; text-decoration: none; transition: transform .25s, background .25s, border-color .25s; }
+.dhyan-button:hover { transform: translateY(-3px); border-color: var(--dhyan-pink); }
+.dhyan-button-primary { border-color: #f1b6d8; background: #f1b6d8; color: #24121e; }
+.dhyan-button-primary:hover { background: #ffd4e9; }
+.dhyan-button-quiet { background: rgba(12,8,14,.25); backdrop-filter: blur(10px); }
+.dhyan-bottom-meta { position: absolute; z-index: 8; right: clamp(22px, 5vw, 78px); bottom: 28px; left: clamp(22px, 5vw, 78px); display: flex; justify-content: space-between; align-items: center; }
+.dhyan-meta { color: rgba(235,215,232,.58); font-size: 8px; letter-spacing: .12em; }
+.dhyan-meta b { margin-left: 8px; color: var(--dhyan-pink); font-size: 13px; }
+.dhyan-scene-state { color: rgba(244,190,220,.72); }
+
+@media (max-width: 760px) {
+  .dhyan-hero { min-height: 760px; height: 100svh; max-height: 920px; }
+  .dhyan-topbar { height: 70px; padding-inline: 22px; }
+  .dhyan-nav { gap: 14px; }
+  .dhyan-nav a { font-size: 9px; }
+  .dhyan-status { display: none; }
+  .dhyan-scene-wrap { inset: 14% -35% 0; opacity: .88 !important; }
+  .dhyan-orbit-label { display: none; }
+  .dhyan-hero-content { top: 48%; width: 94vw; }
+  .dhyan-title { font-size: clamp(72px, 20vw, 142px); }
+  .dhyan-kicker { font-size: 8px; letter-spacing: .11em; }
+  .dhyan-copy { max-width: 340px; font-size: 12px; }
+  .desktop-break { display: none; }
+  .dhyan-bottom-meta { bottom: 20px; }
+  .dhyan-meta { font-size: 7px; }
+  .dhyan-scene-state { display: none; }
+}
+@media (max-width: 420px) {
+  .dhyan-nav { gap: 10px; }
+  .dhyan-nav a { font-size: 8px; }
+  .dhyan-title { font-size: 20vw; }
+  .dhyan-actions { gap: 8px; }
+  .dhyan-button { gap: 12px; padding: 12px 13px; font-size: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dhyan-button, .dhyan-nav a { transition: none; }
+}
+
+.dhyan-hero-content::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -34px -8vw;
+  background: radial-gradient(ellipse at center, rgba(8, 5, 11, .48), transparent 70%);
+  pointer-events: none;
+}

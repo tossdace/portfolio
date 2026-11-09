@@ -109,7 +109,7 @@ export default function Hero({ bootDone = true }: HeroProps) {
             aria-hidden="true"
             tabIndex={-1}
           >
-            <source src="/media/floating-island.mp4" type="video/mp4" />
+            <source src="/media/floating-island-optimized.mp4" type="video/mp4" />
           </video>
         </div>
       </div>
