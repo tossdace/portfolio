@@ -475,7 +475,7 @@ function Hero() {
             transition={{ delay: 0.15, duration: 0.9, ease: "easeOut" }}
             className="mt-6 max-w-3xl text-base leading-8 text-[#f0fdf4]/80 sm:text-lg"
           >
-            I&apos;m a {profile.age}-year-old computer science student and the founder of Hirevoy. I&apos;m currently building the Zeno5 Emulator while learning reverse engineering and asset extraction. I enjoy turning ideas into working software and learning through hands-on projects.
+            I&apos;m a {profile.age}-year-old AI and data science student and the founder of Hirevoy. I&apos;m currently building the Zeno5 Emulator while learning reverse engineering and asset extraction. I enjoy turning ideas into working software and learning through hands-on projects.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 18 }}

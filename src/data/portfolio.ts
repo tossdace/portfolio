@@ -38,13 +38,13 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dhyanajay.vercel.app",
   title: "Dhyan Ajay | Portfolio",
   description:
-    "Dhyan Ajay is a computer science student, founder of Hirevoy, and creator of the Zeno5 Emulator.",
+    "Dhyan Ajay is an AI and data science student, founder of Hirevoy, and creator of the Zeno5 Emulator.",
 };
 
 export const profile = {
   name: "Dhyan Ajay",
   age: 19,
-  role: "Computer Science Student",
+  role: "AI and Data Science Student",
   headline:
     "I turn ideas and systems experiments into useful software, guided by curiosity and a love of building.",
   shortPitch:
