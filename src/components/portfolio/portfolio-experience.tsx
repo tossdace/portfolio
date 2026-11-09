@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent } from "react";
 import {
   AnimatePresence,
   motion,
@@ -57,6 +56,7 @@ import {
 import { cn } from "@/lib/utils";
 import RedesignHero from "@/components/hero/Hero";
 import { DuckFamilyNavigation } from "@/components/navigation/DuckFamilyNavigation";
+import ProjectsExhibition from "@/components/portfolio/ProjectsExhibition";
 
 const ZENO = projects.find((project) => project.slug === "zeno5-emulator")!;
 const HIREVOY = projects.find((project) => project.slug === "hirevoy")!;
@@ -678,149 +678,7 @@ function ProfileTile({ icon, title, text }: { icon: ReactNode; title: string; te
 /* -------------------------------------------------------------------------- */
 
 function FeaturedProjects() {
-  return (
-    <MotionSection
-      id="projects"
-      eyebrow="Featured projects"
-      title="Selected projects"
-      copy="Explore a selection of projects, from product ideas to systems research."
-      className="bg-[#0B1114]/60"
-    >
-      <motion.div
-        variants={revealVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-        className="grid gap-6 lg:grid-cols-3"
-      >
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
-      </motion.div>
-    </MotionSection>
-  );
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  const cardRepo = project.repo || project.links.find((link) => link.href?.includes("github.com"))?.href;
-
-  const handleCardClick = (event: ReactMouseEvent<HTMLElement>) => {
-    if (!cardRepo) return;
-    if ((event.target as HTMLElement).closest("a")) return;
-    window.open(cardRepo, "_blank", "noopener,noreferrer");
-  };
-
-  const handleCardKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
-    if (!cardRepo) return;
-    if (event.key !== "Enter" && event.key !== " ") return;
-    event.preventDefault();
-    window.open(cardRepo, "_blank", "noopener,noreferrer");
-  };
-
-  return (
-    <motion.article
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.18 }}
-      whileHover={{ y: -6, scale: 1.01 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      onClick={handleCardClick}
-      onKeyDown={handleCardKeyDown}
-      tabIndex={cardRepo ? 0 : -1}
-      role={cardRepo ? "button" : undefined}
-      aria-label={
-        cardRepo
-          ? `Open GitHub repository for ${project.title}`
-          : undefined
-      }
-      className={cn(
-        "cyber-glass cyber-glass-hover group relative overflow-hidden rounded-3xl transition-all duration-300",
-        cardRepo && "cursor-pointer",
-      )}
-    >
-      <PixelCornerBrackets />
-
-      {/* Steam game launcher card image container */}
-      <div className="relative aspect-[16/10] overflow-hidden border-b border-[rgba(0,255,136,0.18)] bg-[#04070a]">
-        {project.image ? (
-          <Image
-            src={project.image}
-            alt={`${project.title} visual`}
-            fill
-            sizes="(min-width: 1024px) 33vw, 100vw"
-            className="object-cover transition duration-[700ms] ease-out group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#04070a] via-[#0B1114] to-[#00FF88]/10 text-white/80">
-            <FileText className="size-14 text-[#00FF88]" />
-            <div className="max-w-xs text-center text-xs leading-6 text-[#f0fdf4]/70 font-mono">
-              Project preview unavailable.
-            </div>
-          </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1114] via-transparent to-transparent" />
-        
-        {/* Status Pill */}
-        <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-[#00FF88]/30 bg-[#06080A]/85 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[#00FF88] backdrop-blur-md shadow-[0_0_12px_rgba(0,255,136,0.2)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#00FF88] animate-pulse" />
-          {project.status}
-        </div>
-      </div>
-
-      <div className="p-6 sm:p-7">
-        <div className="flex flex-wrap items-center gap-2">
-          {project.category ? (
-            <span className="rounded-md border border-[#00FF88]/20 bg-[#00FF88]/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-[#00FF88]">
-              {project.category}
-            </span>
-          ) : null}
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#00FF88]/60">
-            {project.eyebrow}
-          </p>
-        </div>
-
-        <h3 className="mt-3 text-2xl font-black tracking-tight text-white group-hover:text-[#00FF88] transition-colors">
-          {project.title}
-        </h3>
-        <p className="mt-3 text-sm leading-6 text-[#f0fdf4]/70">{project.summary}</p>
-
-        {/* Tech stack badges */}
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {project.techStack.map((tech) => (
-            <span
-              key={tech}
-              className="rounded-lg border border-[rgba(0,255,136,0.15)] bg-[#0B1114]/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-[#6CFFB2]"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Challenge box */}
-        <div className="mt-5 rounded-2xl border border-[rgba(0,255,136,0.15)] bg-[#06080A]/80 p-3.5">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-[#00FF88]/60">Challenge</p>
-          <p className="mt-1.5 text-xs leading-5 text-[#f0fdf4]/80">{project.challenges[0]}</p>
-        </div>
-
-        <div className="mt-5 flex flex-wrap gap-2.5">
-          {cardRepo && (
-            <Button asChild variant="secondary" size="sm">
-              <a href={cardRepo} target="_blank" rel="noreferrer noopener">
-                View on GitHub
-                <ChevronRight className="size-4" aria-hidden="true" />
-              </a>
-            </Button>
-          )}
-          {project.links
-            .filter((link) => !cardRepo || link.href !== cardRepo)
-            .map((link) => (
-              <ActionLink key={link.label} link={link} />
-            ))}
-        </div>
-      </div>
-    </motion.article>
-  );
+  return <ProjectsExhibition />;
 }
 
 /* -------------------------------------------------------------------------- */
