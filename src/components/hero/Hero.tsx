@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { profile } from "@/data/portfolio";
+import CinematicVideoShader from "@/components/hero/CinematicVideoShader";
 
 interface HeroProps {
   bootDone?: boolean;
@@ -11,8 +12,12 @@ interface HeroProps {
 export default function Hero({ bootDone = true }: HeroProps) {
   const root = useRef<HTMLElement>(null);
   const [sceneReady, setSceneReady] = useState(false);
+  const [shaderReady, setShaderReady] = useState(false);
+  const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
   const [motionAllowed, setMotionAllowed] = useState(false);
-  const hasAnimated = useRef(false);
+  const handleShaderActiveChange = useCallback((active: boolean) => {
+    setShaderReady(active);
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: no-preference)");
@@ -23,8 +28,7 @@ export default function Hero({ bootDone = true }: HeroProps) {
   }, []);
 
   useEffect(() => {
-    if (!bootDone || hasAnimated.current) return;
-    hasAnimated.current = true;
+    if (!bootDone) return;
     const isSmallScreen = window.matchMedia("(max-width: 760px)").matches;
 
     const ctx = gsap.context(() => {
@@ -88,15 +92,14 @@ export default function Hero({ bootDone = true }: HeroProps) {
       className="dhyan-hero"
     >
       <div className="dhyan-grain" />
-      <div className="dhyan-vignette" />
-
       {/* The still image remains visible until the supplied video can play. */}
       <div className="dhyan-scene-wrap">
         <div
-          className={`dhyan-scene${sceneReady ? " dhyan-scene-ready" : ""}`}
+          className={`dhyan-scene dhyan-cinematic-scene${sceneReady ? " dhyan-scene-ready" : ""}${shaderReady ? " dhyan-scene-shader-ready" : ""}`}
           aria-hidden="true"
         >
           <video
+            ref={setVideoElement}
             className="dhyan-scene-video"
             autoPlay={motionAllowed && bootDone}
             muted
@@ -105,12 +108,21 @@ export default function Hero({ bootDone = true }: HeroProps) {
             preload={bootDone ? "metadata" : "none"}
             poster="/media/floating-island-poster.webp"
             onPlaying={() => setSceneReady(true)}
-            onError={() => setSceneReady(false)}
+            onError={() => {
+              setSceneReady(false);
+              setShaderReady(false);
+            }}
             aria-hidden="true"
             tabIndex={-1}
           >
             <source src="/media/floating-island-optimized.mp4" type="video/mp4" />
           </video>
+          <CinematicVideoShader
+            video={videoElement}
+            enabled={motionAllowed && bootDone}
+            onActiveChange={handleShaderActiveChange}
+          />
+          <div className="dhyan-cinematic-overlay" />
         </div>
       </div>
 

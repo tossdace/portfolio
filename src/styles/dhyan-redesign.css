@@ -26,18 +26,12 @@
 .dhyan-hero * { box-sizing: border-box; }
 
 /* Grain & Vignette overlays */
-.dhyan-grain,
-.dhyan-vignette { position: absolute; inset: 0; pointer-events: none; }
+.dhyan-grain { position: absolute; inset: 0; pointer-events: none; }
 .dhyan-grain {
   z-index: 5;
   opacity: .12;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
 }
-.dhyan-vignette {
-  z-index: 2;
-  background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.52) 100%);
-}
-
 /* Top navigation bar (hero-internal) */
 .dhyan-topbar {
   position: absolute; z-index: 8;
@@ -90,6 +84,19 @@
     linear-gradient(0deg, rgba(9, 7, 11, .58), transparent 46%),
     url("/media/floating-island-poster.webp") center 54% / cover no-repeat;
 }
+.dhyan-cinematic-scene {
+  background: url("/media/floating-island-poster.webp") center 54% / cover no-repeat;
+}
+.dhyan-cinematic-overlay {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, .34) 100%),
+    linear-gradient(90deg, rgba(9, 7, 11, .78) 0%, rgba(9, 7, 11, .35) 38%, rgba(9, 7, 11, .04) 72%),
+    linear-gradient(0deg, rgba(9, 7, 11, .58), transparent 46%);
+}
 .dhyan-scene-video {
   position: absolute;
   inset: 0;
@@ -101,6 +108,19 @@
   transition: opacity 900ms ease;
 }
 .dhyan-scene-ready .dhyan-scene-video { opacity: 1; }
+.dhyan-scene-shader-ready .dhyan-scene-video { opacity: 0; }
+.dhyan-scene-shader {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms ease;
+}
+.dhyan-scene-shader-ready .dhyan-scene-shader { opacity: 1; }
 .dhyan-scene-loading {
   background:
     radial-gradient(ellipse at 50% 66%, rgba(203,105,171,.28), transparent 45%),
@@ -146,7 +166,7 @@
   text-shadow: 0 8px 70px rgba(9, 4, 12, .55);
 }
 .dhyan-title-mask { display: block; overflow: hidden; padding: 0 .08em .12em 0; }
-.dhyan-title-line { display: block; transform: translateY(115%); }
+.dhyan-title-line { display: block; }
 .dhyan-title-second { margin-top: 8px; }
 .dhyan-title-period { color: var(--dhyan-pink); }
 
@@ -232,6 +252,13 @@
       url("/media/floating-island-poster.webp");
     background-position: center, 55% 50%;
   }
+  .dhyan-cinematic-scene { background-position: 55% 50%; }
+  .dhyan-cinematic-scene { background-image: url("/media/floating-island-poster.webp"); }
+  .dhyan-cinematic-overlay {
+    background:
+      radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, .28) 100%),
+      linear-gradient(0deg, rgba(9, 7, 11, .76) 0%, rgba(9, 7, 11, .38) 42%, rgba(9, 7, 11, .08) 78%);
+  }
   .dhyan-scene-video { object-position: 55% 50%; }
   .dhyan-hero-content {
     top: auto;
@@ -249,7 +276,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dhyan-scene-video { display: none; }
+  .dhyan-scene-video,
+  .dhyan-scene-shader { display: none; }
 }
 
 /* ─── Responsive ─── */
