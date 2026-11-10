@@ -62,7 +62,7 @@ export const profile = {
     github: "https://github.com/tossdace",
     linkedin: "https://www.linkedin.com/in/dhyan-ajay/",
     chess: "https://www.chess.com/member/dhyan-ajay",
-    resume: undefined,
+    resume: "/resume.pdf",
   },
 };
 

@@ -73,7 +73,7 @@ function previewAlt(project: Project) {
   return `${project.title} project artwork preview`;
 }
 
-function ProjectArtworkFallback({ project }: { project: Project }) {
+function ProjectArtworkFallback({ project, index }: { project: Project; index?: number }) {
   return (
     <div
       className={`projects-exhibition-image-fallback projects-exhibition-image-fallback--${project.slug}`}
@@ -131,7 +131,7 @@ function ProjectArtworkFallback({ project }: { project: Project }) {
         )}
       </svg>
       <div className="projects-exhibition-image-fallback-copy">
-        <small>PROJECT ARTWORK</small>
+        <small>{index != null ? `PROJECT ${String(index + 1).padStart(2, "0")}` : "PROJECT ARTWORK"}</small>
         <strong>{project.title}</strong>
         <span>Preview image unavailable</span>
       </div>
@@ -141,10 +141,12 @@ function ProjectArtworkFallback({ project }: { project: Project }) {
 
 function ProjectPreviewImage({
   project,
+  index,
   sizes,
   className,
 }: {
   project: Project;
+  index?: number;
   sizes: string;
   className: string;
 }) {
@@ -158,7 +160,7 @@ function ProjectPreviewImage({
     : source ? "loading" : "error";
 
   if (!source || state === "error") {
-    return <ProjectArtworkFallback project={project} />;
+    return <ProjectArtworkFallback project={project} index={index} />;
   }
 
   return (
@@ -362,7 +364,8 @@ function createArtworkTexture(
   context.fillStyle = ink;
   context.font = "500 22px Arial, sans-serif";
   context.letterSpacing = "0.24em";
-  context.fillText((project.category ?? project.eyebrow).toUpperCase(), 72, 86);
+  const number = String(index + 1).padStart(2, "0");
+  context.fillText(`${number} · ${(project.category ?? project.eyebrow).toUpperCase()}`, 72, 86);
 
   drawCanvasArtworkFallback(context, project, ink, accent);
 
@@ -663,7 +666,6 @@ export default function ProjectsExhibition() {
       resizeObserver?.disconnect();
       intersectionObserver?.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
-      window.removeEventListener("keydown", onKeyDown);
       canvas.removeEventListener("click", onCanvasClick);
       canvas.removeEventListener("pointerdown", onPointerDown);
       canvas.removeEventListener("pointermove", onPointerMove);
@@ -751,22 +753,6 @@ export default function ProjectsExhibition() {
       window.setTimeout(() => { ignoreNextClickRef.current = false; }, 0);
       selectProject(nextIndex);
       if (reducedMotion) drawFrame(performance.now());
-    };
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (!visible || event.defaultPrevented) return;
-      const target = event.target;
-      if (target instanceof HTMLElement && target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"]')) return;
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        selectProject(selectedIndexRef.current - 1);
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        selectProject(selectedIndexRef.current + 1);
-      } else if (event.key === "Escape" && detailOpenRef.current) {
-        event.preventDefault();
-        closeDetails();
-      }
     };
 
     const onContextLost = (event: Event) => {
@@ -961,7 +947,6 @@ export default function ProjectsExhibition() {
       canvas.style.touchAction = "pan-y";
       canvas.style.cursor = "grab";
       document.addEventListener("visibilitychange", onVisibilityChange);
-      window.addEventListener("keydown", onKeyDown);
       renderOnceRef.current = () => {
         if (visible && !document.hidden) drawFrame(performance.now());
       };
@@ -971,6 +956,7 @@ export default function ProjectsExhibition() {
           if (visible) {
             if (reducedMotion) drawFrame(performance.now());
             else startRendering();
+            sectionRef.current?.focus({ preventScroll: true });
           } else stopRendering();
         });
         intersectionObserver.observe(section);
@@ -994,6 +980,7 @@ export default function ProjectsExhibition() {
     <section
       ref={sectionRef}
       id="projects"
+      tabIndex={-1}
       className={`projects-exhibition${detailsOpen ? " is-details-open" : ""}`}
       aria-label="Interactive projects exhibition"
       onKeyDown={(event) => {
@@ -1063,6 +1050,7 @@ export default function ProjectsExhibition() {
               >
                 <ProjectPreviewImage
                   project={project}
+                  index={index}
                   sizes="70vw"
                   className="projects-exhibition-fallback-image"
                 />
@@ -1071,11 +1059,6 @@ export default function ProjectsExhibition() {
           })}
         </div>
       )}
-
-      <header className="projects-exhibition-heading" aria-live="polite">
-        <p>PROJECT EXHIBITION / {String(selectedIndex + 1).padStart(2, "0")}</p>
-        <h2>{selectedProject?.title ?? "Projects"}</h2>
-      </header>
 
       <button
         ref={openDetailsButtonRef}

@@ -149,12 +149,27 @@ export default async function ProjectPage({ params }: PageProps) {
                   <h2 className="mt-2 text-3xl font-black text-white">Why this project matters</h2>
                 </div>
                 <span className="rounded-lg border border-[#00FF88]/30 bg-[#00FF88]/10 px-4 py-2 font-mono text-xs text-[#00FF88]">
-                  {project.timeline.join(" • ")}
+                  {project.status}
                 </span>
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <ProjectDetailCard title="Problem" value={project.caseStudy.problem} icon={<ScrollText />} />
                 <ProjectDetailCard title="Results" value={project.caseStudy.results} icon={<Rocket />} />
+              </div>
+
+              <div className="mt-8">
+                <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-[#00FF88] mb-4">Timeline</p>
+                <div className="relative pl-8 border-l border-[#00FF88]/20">
+                  {project.timeline.map((milestone, i) => (
+                    <div key={i} className="mb-6 relative last:mb-0">
+                      <div className="absolute -left-[8px] top-1.5 h-2 w-2 rounded-full bg-[#00FF88] border border-[#00FF88]/40" />
+                      <span className="font-mono text-xs uppercase tracking-wider text-[#00FF88]/60 block mb-1">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <p className="text-sm leading-7 text-[#f0fdf4]/80">{milestone}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </section>
 

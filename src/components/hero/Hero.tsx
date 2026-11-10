@@ -166,6 +166,14 @@ export default function Hero({ bootDone = true }: HeroProps) {
           </a>
           <a
             className="dhyan-button dhyan-button-quiet"
+            href="/resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            VIEW RESUME <span>↗</span>
+          </a>
+          <a
+            className="dhyan-button dhyan-button-quiet"
             href={profile.contact.github}
             target="_blank"
             rel="noreferrer"

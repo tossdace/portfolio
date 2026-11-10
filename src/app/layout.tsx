@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope, DM_Mono } from "next/font/google";
 import { site } from "@/data/portfolio";
 import "./globals.css";
@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   title: site.title,
   description: site.description,
   metadataBase: new URL(site.url),
-  themeColor: "#09070b",
   openGraph: {
     title: site.title,
     description: site.description,
@@ -31,6 +30,10 @@ export const metadata: Metadata = {
     title: site.title,
     description: site.description,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#09070b",
 };
 
 export default function RootLayout({
