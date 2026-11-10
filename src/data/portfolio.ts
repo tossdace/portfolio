@@ -80,7 +80,7 @@ export const projects: Project[] = [
     title: "Zeno5 Emulator",
     eyebrow: "Flagship build",
     status: "In development",
-    image: undefined,
+    image: "/assets/zeno5-preview.png",
     repo: "https://github.com/tossdace/Zeno5",
     summary:
       "An ongoing emulator project exploring systems research, asset pipelines, and reverse engineering.",
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     title: "Hirevoy",
     eyebrow: "Founder project",
     status: "Founder-led product",
-    image: "/assets/hirev.png",
+    image: "/assets/hirevoy-dashboard.png",
     summary:
       "A hiring product concept focused on helping people present their work and making hiring journeys easier to understand and evaluate.",
     impact:
@@ -258,7 +258,7 @@ export const projects: Project[] = [
       "Embedded Systems",
       "IoT",
     ],
-    image: undefined,
+    image: "/assets/sign-language-gloves-preview.png",
     links: [
       {
         label: "GitHub",
@@ -337,7 +337,7 @@ export const projects: Project[] = [
       "TTS",
       "Automation",
     ],
-    image: undefined,
+    image: "/assets/yukino-preview.png",
     links: [
       {
         label: "GitHub",
@@ -403,7 +403,7 @@ export const projects: Project[] = [
     title: "Portfolio OS",
     eyebrow: "This website",
     status: "Interactive v1",
-    image: undefined,
+    image: "/images/dhyan-floating-island.png",
     summary:
       "An interactive portfolio that brings Dhyan's projects, skills, and contact information together in one place.",
     impact:

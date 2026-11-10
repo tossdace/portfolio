@@ -911,12 +911,111 @@
 .projects-exhibition-preview {
   position: relative;
   flex: 0 0 auto;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   border: 1px solid rgba(248, 233, 245, .16);
   background: #f0ece9;
 }
-.projects-exhibition-preview img { object-fit: cover; }
+.projects-exhibition-preview-image,
+.projects-exhibition-fallback-image { object-fit: cover; }
+.projects-exhibition-image-loading {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #f4e8f2;
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  background: rgba(16, 13, 19, .5);
+}
+.projects-exhibition-image-loading::before {
+  width: 26px;
+  height: 26px;
+  border: 2px solid rgba(246, 224, 241, .3);
+  border-top-color: #ecc4df;
+  border-radius: 50%;
+  content: "";
+  animation: projects-preview-spin .8s linear infinite;
+}
+@keyframes projects-preview-spin { to { transform: rotate(360deg); } }
+.projects-exhibition-image-fallback {
+  --preview-line: #a8d7cb;
+  --preview-glow: rgba(45, 177, 165, .18);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #f6f3f5;
+  background:
+    radial-gradient(ellipse at 70% 35%, var(--preview-glow), transparent 48%),
+    linear-gradient(135deg, #27242d, #111016 72%);
+}
+.projects-exhibition-image-fallback::before {
+  position: absolute;
+  inset: 7%;
+  border: 1px solid color-mix(in srgb, var(--preview-line), transparent 62%);
+  content: "";
+}
+.projects-exhibition-image-fallback svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--preview-line);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+  opacity: .78;
+}
+.projects-exhibition-image-fallback-copy {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  justify-items: start;
+  gap: 3px;
+  padding: 30px 5% 4%;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .8);
+  background: linear-gradient(180deg, transparent, rgba(16, 13, 19, .96) 37%);
+}
+.projects-exhibition-image-fallback-copy small,
+.projects-exhibition-image-fallback-copy span {
+  color: rgba(247, 230, 243, .76);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(7px, .7vw, 9px);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.projects-exhibition-image-fallback-copy strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(18px, 2vw, 30px);
+  font-weight: 500;
+}
+.projects-exhibition-image-fallback--zeno5-emulator {
+  --preview-line: #39d4e8;
+  --preview-glow: rgba(45, 200, 225, .22);
+}
+.projects-exhibition-image-fallback--hirevoy {
+  --preview-line: #73d6b5;
+  --preview-glow: rgba(61, 189, 145, .2);
+}
+.projects-exhibition-image-fallback--sign-language-gloves {
+  --preview-line: #e5ba82;
+  --preview-glow: rgba(205, 147, 80, .19);
+}
+.projects-exhibition-image-fallback--project-yukino {
+  --preview-line: #a8bcff;
+  --preview-glow: rgba(119, 124, 244, .22);
+}
+.projects-exhibition-image-fallback--portfolio-os {
+  --preview-line: #d1a9df;
+  --preview-glow: rgba(180, 134, 220, .22);
+}
 .projects-exhibition-preview-art {
   display: grid;
   height: 100%;
