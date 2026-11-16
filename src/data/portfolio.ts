@@ -43,7 +43,6 @@ export const site = {
 
 export const profile = {
   name: "Dhyan Ajay",
-  age: 19,
   role: "AI and Data Science Student",
   headline:
     "I turn ideas and systems experiments into useful software, guided by curiosity and a love of building.",
@@ -62,7 +61,6 @@ export const profile = {
     github: "https://github.com/tossdace",
     linkedin: "https://www.linkedin.com/in/dhyan-ajay/",
     chess: "https://www.chess.com/member/dhyan-ajay",
-    resume: "/resume.pdf",
   },
 };
 
@@ -578,9 +576,6 @@ export const contactActions = [
     href: profile.contact.email ? `mailto:${profile.contact.email}` : undefined,
     value: profile.contact.email || "Email address not provided",
   },
-  ...(profile.contact.resume
-    ? [{ label: "Resume", href: profile.contact.resume, value: "Download resume" }]
-    : []),
   {
     label: "GitHub",
     href: profile.contact.github || undefined,

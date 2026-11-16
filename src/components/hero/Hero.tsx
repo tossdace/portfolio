@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { profile } from "@/data/portfolio";
 import CinematicVideoShader from "@/components/hero/CinematicVideoShader";
+import UnderwaterShader from "@/components/hero/UnderwaterShader";
 
 interface HeroProps {
   bootDone?: boolean;
@@ -14,7 +15,7 @@ export default function Hero({ bootDone = true }: HeroProps) {
   const [sceneReady, setSceneReady] = useState(false);
   const [shaderReady, setShaderReady] = useState(false);
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
-  const [motionAllowed, setMotionAllowed] = useState(false);
+  const [motionAllowed, setMotionAllowed] = useState(true);
   const handleShaderActiveChange = useCallback((active: boolean) => {
     setShaderReady(active);
   }, []);
@@ -98,6 +99,11 @@ export default function Hero({ bootDone = true }: HeroProps) {
           className={`dhyan-scene dhyan-cinematic-scene${sceneReady ? " dhyan-scene-ready" : ""}${shaderReady ? " dhyan-scene-shader-ready" : ""}`}
           aria-hidden="true"
         >
+          {/* Underwater shader background */}
+          <UnderwaterShader
+            enabled={motionAllowed}
+            className="dhyan-underwater-shader"
+          />
           <video
             ref={setVideoElement}
             className="dhyan-scene-video"
@@ -163,14 +169,6 @@ export default function Hero({ bootDone = true }: HeroProps) {
         <div className="dhyan-actions">
           <a className="dhyan-button dhyan-button-primary" href="#projects">
             EXPLORE MY WORK <span>↗</span>
-          </a>
-          <a
-            className="dhyan-button dhyan-button-quiet"
-            href="/resume.pdf"
-            target="_blank"
-            rel="noreferrer"
-          >
-            VIEW RESUME <span>↗</span>
           </a>
           <a
             className="dhyan-button dhyan-button-quiet"

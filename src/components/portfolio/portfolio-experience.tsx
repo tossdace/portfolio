@@ -57,6 +57,7 @@ import { cn } from "@/lib/utils";
 import RedesignHero from "@/components/hero/Hero";
 import { DuckFamilyNavigation } from "@/components/navigation/DuckFamilyNavigation";
 import ProjectsExhibition from "@/components/portfolio/ProjectsExhibition";
+import UnderwaterShader from "@/components/hero/UnderwaterShader";
 
 const ZENO = projects.find((project) => project.slug === "zeno5-emulator")!;
 const HIREVOY = projects.find((project) => project.slug === "hirevoy")!;
@@ -475,7 +476,7 @@ function Hero() {
             transition={{ delay: 0.15, duration: 0.9, ease: "easeOut" }}
             className="mt-6 max-w-3xl text-base leading-8 text-[#f0fdf4]/80 sm:text-lg"
           >
-            I&apos;m a {profile.age}-year-old AI and data science student and the founder of Hirevoy. I&apos;m currently building the Zeno5 Emulator while learning reverse engineering and asset extraction. I enjoy turning ideas into working software and learning through hands-on projects.
+            I&apos;m an AI and data science student and the founder of Hirevoy. I&apos;m currently building the Zeno5 Emulator while learning reverse engineering and asset extraction. I enjoy turning ideas into working software and learning through hands-on projects.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -541,7 +542,6 @@ function HudMetric({ label, value, icon }: { label: string; value: string; icon:
 function PlayerProfile({ unlocks }: { unlocks: string[] }) {
   const rows = [
     ["Name", profile.name],
-    ["Age", `${profile.age}`],
     ["Role", profile.role],
     ["Current Quest", profile.currentQuest],
     ["Current Learning", profile.currentLearning.join(" / ")],
@@ -554,41 +554,80 @@ function PlayerProfile({ unlocks }: { unlocks: string[] }) {
       eyebrow="Player profile"
       title="A little about me."
       copy={profile.shortPitch}
+      className="isolate overflow-hidden"
     >
-      <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="cyber-glass relative rounded-2xl p-6">
-          <PixelCornerBrackets />
-          <div className="mb-5 flex items-center justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#00FF88]">
-                Identity
-              </p>
-              <h3 className="mt-2 text-2xl font-bold text-white">{profile.name}</h3>
+      {/* Tilted water shader behind the profile content. */}
+      <div className="pointer-events-none absolute inset-0 -z-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute -inset-[8%] -rotate-2 scale-110 bg-gradient-to-br from-cyan-900 via-teal-700 to-slate-950 brightness-125 contrast-125 saturate-150">
+          <UnderwaterShader enabled={true} className="h-full w-full" />
+        </div>
+      </div>
+      <div className="relative z-10 flex flex-col gap-8 lg:grid lg:grid-cols-[0.95fr_1.05fr] lg:gap-8">
+        {/* Left column - Identity & Traits */}
+        <div className="space-y-6">
+          <div className="relative min-h-[25rem] py-5 sm:min-h-[29rem] sm:py-8">
+            <div className="mb-8 flex items-center gap-3">
+              <ShieldCheck className="size-6 text-[#ffb1dc]" aria-hidden="true" />
+              <span className="font-mono text-xs uppercase tracking-[0.24em] text-[#ffb1dc]">Identity / in motion</span>
             </div>
-            <div className="grid size-14 place-items-center rounded-xl border border-[#00FF88]/40 bg-[#00FF88]/10 text-[#00FF88] shadow-[0_0_20px_rgba(0,255,136,0.2)]">
-              <ShieldCheck className="size-7" aria-hidden="true" />
+            <div className="relative flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/55">I am</span>
+              <motion.h3
+                animate={{ y: [0, -7, 0], rotate: [0, -1.2, 0] }}
+                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+                className="text-4xl font-black tracking-tight text-white drop-shadow-[0_8px_24px_rgba(255,142,212,0.35)] sm:text-6xl"
+              >
+                {profile.name}
+              </motion.h3>
+            </div>
+            <div className="mt-8 flex max-w-2xl flex-wrap gap-x-7 gap-y-5">
+              {rows.slice(1).map(([label, value], index) => (
+                <motion.div
+                  key={label}
+                  animate={{ y: [0, index % 2 === 0 ? -5 : 5, 0], rotate: [0, index % 2 === 0 ? 0.7 : -0.7, 0] }}
+                  transition={{ duration: 4.5 + index * 0.35, repeat: Infinity, ease: "easeInOut", delay: index * 0.2 }}
+                  className="max-w-full border-l border-[#ffb1dc]/45 pl-3"
+                >
+                  <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[#ffb1dc]/75">{label}</span>
+                  <span className="mt-1 block text-sm font-medium leading-6 text-white/90 sm:text-base">{value}</span>
+                </motion.div>
+              ))}
             </div>
           </div>
-          <div className="grid gap-3">
-            {rows.map(([label, value]) => (
-              <div
-                key={label}
-                className="grid gap-2 rounded-xl border border-[rgba(0,255,136,0.15)] bg-[#0B1114]/80 p-3 sm:grid-cols-[150px_1fr]"
-              >
-                <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#00FF88]/60">
-                  {label}
+
+          {/* Traits and discoveries */}
+          <div className="cyber-glass relative rounded-2xl p-6 lg:p-8">
+            <PixelCornerBrackets />
+            <div className="flex items-center gap-3">
+              <Award className="size-5 text-[#00FF88]" aria-hidden="true" />
+              <h3 className="text-lg font-semibold text-white">Traits and discoveries</h3>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {profile.personality.map((trait) => (
+                <span
+                  key={trait}
+                  className="rounded-lg border border-[#00FF88]/30 bg-[#00FF88]/10 px-3 py-1.5 font-mono text-xs text-[#00FF88]"
+                >
+                  {trait}
                 </span>
-                <span className="text-sm font-medium text-white/90">{value}</span>
-              </div>
-            ))}
+              ))}
+              {unlocks.map((unlock) => (
+                <span
+                  key={unlock}
+                  className="rounded-lg border border-[#6CFFB2]/40 bg-[#6CFFB2]/15 px-3 py-1.5 font-mono text-xs font-bold text-[#6CFFB2] shadow-[0_0_10px_rgba(0,255,136,0.2)]"
+                >
+                  🔓 {unlock}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        {/* Right column - Profile tiles */}
+        <div className="space-y-5">
           <ProfileTile
             icon={<Code2 />}
             title="Developer"
-            text="I explore ideas through projects and learn something new with each one."
           />
           <ProfileTile
             icon={<Briefcase />}
@@ -630,45 +669,20 @@ function PlayerProfile({ unlocks }: { unlocks: string[] }) {
               </>
             }
           />
-          <div className="cyber-glass relative rounded-2xl p-5 md:col-span-2">
-            <PixelCornerBrackets />
-            <div className="flex items-center gap-3">
-              <Award className="size-5 text-[#00FF88]" aria-hidden="true" />
-              <h3 className="text-lg font-semibold text-white">Traits and discoveries</h3>
-            </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {profile.personality.map((trait) => (
-                <span
-                  key={trait}
-                  className="rounded-lg border border-[#00FF88]/30 bg-[#00FF88]/10 px-3 py-1.5 font-mono text-xs text-[#00FF88]"
-                >
-                  {trait}
-                </span>
-              ))}
-              {unlocks.map((unlock) => (
-                <span
-                  key={unlock}
-                  className="rounded-lg border border-[#6CFFB2]/40 bg-[#6CFFB2]/15 px-3 py-1.5 font-mono text-xs font-bold text-[#6CFFB2] shadow-[0_0_10px_rgba(0,255,136,0.2)]"
-                >
-                  🔓 {unlock}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </MotionSection>
   );
 }
 
-function ProfileTile({ icon, title, text }: { icon: ReactNode; title: string; text: ReactNode }) {
+function ProfileTile({ icon, title, text }: { icon: ReactNode; title: string; text?: ReactNode }) {
   return (
     <article className="cyber-glass cyber-glass-hover relative rounded-2xl p-5">
       <span className="grid size-10 place-items-center rounded-xl border border-[#00FF88]/30 bg-[#00FF88]/10 text-[#00FF88] [&_svg]:size-5">
         {icon}
       </span>
       <h3 className="mt-4 text-lg font-semibold text-white">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-[#f0fdf4]/70">{text}</p>
+      {text && <p className="mt-2 text-sm leading-6 text-[#f0fdf4]/70">{text}</p>}
     </article>
   );
 }
@@ -1256,12 +1270,8 @@ function MiniStat({ label, value }: { label: string; value: number }) {
 /* -------------------------------------------------------------------------- */
 
 function Contact() {
-  const primaryActions = contactActions.filter(
-    (action) => action.label === "Email" || action.label === "Resume",
-  );
-  const otherActions = contactActions.filter(
-    (action) => action.label !== "Email" && action.label !== "Resume",
-  );
+  const primaryActions = contactActions.filter((action) => action.label === "Email");
+  const otherActions = contactActions.filter((action) => action.label !== "Email");
 
   return (
     <MotionSection
@@ -1285,11 +1295,7 @@ function Contact() {
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             {primaryActions.map((action) => (
-              <ContactButton
-                key={action.label}
-                action={action}
-                icon={action.label === "Email" ? <Mail /> : <FileText />}
-              />
+              <ContactButton key={action.label} action={action} icon={<Mail />} />
             ))}
           </div>
         </div>
@@ -1424,7 +1430,7 @@ function MotionSection({
 
 function SectionHeader({ eyebrow, title, copy }: { eyebrow: string; title: string; copy: string }) {
   return (
-    <div className="mb-10 max-w-3xl">
+    <div className="relative z-10 mb-10 max-w-3xl">
       <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#00FF88]">
         {eyebrow}
       </p>
