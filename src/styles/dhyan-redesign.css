@@ -1,5 +1,3 @@
-/* ─── Dhyan Portfolio Redesign: Hero & Cinematic Styles ─── */
-
 :root {
   --dhyan-bg: #09070b;
   --dhyan-ink: #f7eff5;
@@ -9,7 +7,6 @@
   --dhyan-line: rgba(255, 235, 249, .16);
 }
 
-/* ─── Hero Section ─── */
 .dhyan-hero {
   position: relative;
   isolation: isolate;
@@ -25,14 +22,12 @@
 }
 .dhyan-hero * { box-sizing: border-box; }
 
-/* Grain & Vignette overlays */
 .dhyan-grain { position: absolute; inset: 0; pointer-events: none; }
 .dhyan-grain {
   z-index: 5;
   opacity: .12;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
 }
-/* Top navigation bar (hero-internal) */
 .dhyan-topbar {
   position: absolute; z-index: 8;
   top: 0; left: 0; right: 0; height: 86px;
@@ -47,7 +42,6 @@
 }
 .dhyan-mark span { color: var(--dhyan-pink); }
 
-/* Mono-spaced UI elements */
 .dhyan-nav { display: flex; gap: clamp(20px, 3vw, 46px); }
 .dhyan-nav a,
 .dhyan-status,
@@ -67,7 +61,6 @@
   background: #a6e5ba; box-shadow: 0 0 12px #a6e5ba;
 }
 
-/* 3D Scene container */
 .dhyan-scene-wrap {
   position: absolute;
   z-index: 1;
@@ -127,7 +120,6 @@
     url("/media/floating-island-poster.webp") center 54% / cover no-repeat;
 }
 
-/* Underwater shader background */
 .dhyan-underwater-shader {
   position: absolute;
   z-index: 0;
@@ -145,7 +137,6 @@
   .dhyan-underwater-shader { opacity: 0.15; }
 }
 
-/* Orbit labels */
 .dhyan-orbit-label {
   position: absolute; z-index: 4; top: 48%;
   color: rgba(245,220,240,.54);
@@ -154,7 +145,6 @@
 .dhyan-orbit-left { left: clamp(22px, 5vw, 78px); }
 .dhyan-orbit-right { right: clamp(22px, 5vw, 78px); text-align: right; }
 
-/* Hero content overlay */
 .dhyan-hero-content {
   position: absolute; z-index: 6;
   top: 48%; left: 50%;
@@ -170,7 +160,6 @@
   pointer-events: none;
 }
 
-/* Title & typography */
 .dhyan-kicker {
   margin: 0 0 24px; opacity: 0;
   color: #e6bfd9; font-size: 9px; letter-spacing: .19em;
@@ -188,7 +177,6 @@
 .dhyan-title-second { margin-top: 8px; }
 .dhyan-title-period { color: var(--dhyan-pink); }
 
-/* Description */
 .dhyan-copy {
   margin: 28px auto 0; opacity: 0;
   color: #d5c7d2;
@@ -197,7 +185,6 @@
   text-shadow: 0 2px 15px #09070b;
 }
 
-/* CTA buttons */
 .dhyan-actions {
   display: flex; justify-content: center; gap: 12px;
   margin-top: 26px; opacity: 0;
@@ -216,7 +203,6 @@
 .dhyan-button-primary:hover { background: #ffd4e9; }
 .dhyan-button-quiet { background: rgba(12,8,14,.25); backdrop-filter: blur(10px); }
 
-/* Bottom metadata bar */
 .dhyan-bottom-meta {
   position: absolute; z-index: 8;
   right: clamp(22px, 5vw, 78px); bottom: 28px; left: clamp(22px, 5vw, 78px);
@@ -226,7 +212,6 @@
 .dhyan-meta b { margin-left: 8px; color: var(--dhyan-pink); font-size: 13px; }
 .dhyan-scene-state { color: rgba(244,190,220,.72); }
 
-/* Floating island hero media and composition */
 .dhyan-hero {
   min-height: 720px;
   height: 100svh;
@@ -298,7 +283,6 @@
   .dhyan-scene-shader { display: none; }
 }
 
-/* ─── Responsive ─── */
 @media (max-width: 760px) {
   .dhyan-hero { min-height: 760px; height: 100svh; }
   .dhyan-topbar { height: 70px; padding-inline: 22px; }
@@ -336,7 +320,6 @@
   .dhyan-scene-wrap { opacity: 1 !important; }
 }
 
-/* Duck family navigation */
 .duck-nav-header {
   position: fixed;
   z-index: 50;
@@ -690,7 +673,6 @@
   .duck-nav-music { transition: none; }
 }
 
-/* Immersive projects exhibition */
 .projects-exhibition {
   position: relative;
   isolation: isolate;

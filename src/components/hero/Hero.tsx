@@ -33,51 +33,10 @@ export default function Hero({ bootDone = true }: HeroProps) {
     const isSmallScreen = window.matchMedia("(max-width: 760px)").matches;
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".dhyan-kicker",
-        { y: 18, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, delay: 0.1, ease: "power3.out" }
-      );
-      gsap.fromTo(
-        ".dhyan-title-line",
-        { yPercent: 115, rotate: 2 },
-        {
-          yPercent: 0,
-          rotate: 0,
-          duration: 1.25,
-          stagger: 0.12,
-          delay: 0.2,
-          ease: "power4.out",
-        }
-      );
-      gsap.fromTo(
-        ".dhyan-copy, .dhyan-actions, .dhyan-meta",
-        { y: 20, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.9,
-          stagger: 0.1,
-          delay: 0.6,
-          ease: "power3.out",
-        }
-      );
-      gsap.fromTo(
-        ".dhyan-scene-wrap",
-        isSmallScreen
-          ? { opacity: 0 }
-          : { opacity: 0, scale: 0.9, y: 35 },
-        isSmallScreen
-          ? { opacity: 1, duration: 1.1, delay: 0.05, ease: "power3.out" }
-          : {
-              opacity: 1,
-              scale: 1,
-              y: 0,
-              duration: 1.6,
-              delay: 0.05,
-              ease: "power3.out",
-            }
-      );
+      gsap.fromTo(".dhyan-kicker", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, delay: 0.1, ease: "power3.out" });
+      gsap.fromTo(".dhyan-title-line", { yPercent: 115, rotate: 2 }, { yPercent: 0, rotate: 0, duration: 1.25, stagger: 0.12, delay: 0.2, ease: "power4.out" });
+      gsap.fromTo(".dhyan-copy, .dhyan-actions, .dhyan-meta", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, stagger: 0.1, delay: 0.6, ease: "power3.out" });
+      gsap.fromTo(".dhyan-scene-wrap", isSmallScreen ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 35 }, isSmallScreen ? { opacity: 1, duration: 1.1, delay: 0.05, ease: "power3.out" } : { opacity: 1, scale: 1, y: 0, duration: 1.6, delay: 0.05, ease: "power3.out" });
     }, root);
 
     return () => ctx.revert();
@@ -93,13 +52,11 @@ export default function Hero({ bootDone = true }: HeroProps) {
       className="dhyan-hero"
     >
       <div className="dhyan-grain" />
-      {/* The still image remains visible until the supplied video can play. */}
       <div className="dhyan-scene-wrap">
         <div
           className={`dhyan-scene dhyan-cinematic-scene${sceneReady ? " dhyan-scene-ready" : ""}${shaderReady ? " dhyan-scene-shader-ready" : ""}`}
           aria-hidden="true"
         >
-          {/* Underwater shader background */}
           <UnderwaterShader
             enabled={motionAllowed}
             className="dhyan-underwater-shader"
@@ -132,7 +89,6 @@ export default function Hero({ bootDone = true }: HeroProps) {
         </div>
       </div>
 
-      {/* Orbit labels */}
       <div className="dhyan-orbit-label dhyan-orbit-left">
         A PERSONAL WORLD
         <br />
@@ -143,8 +99,6 @@ export default function Hero({ bootDone = true }: HeroProps) {
         <br />
         KERALA, INDIA
       </div>
-
-      {/* Main content */}
       <div className="dhyan-hero-content">
         <p className="dhyan-kicker">
           <span>✳</span> CREATIVE DEVELOPER /{" "}
@@ -181,7 +135,6 @@ export default function Hero({ bootDone = true }: HeroProps) {
         </div>
       </div>
 
-      {/* Bottom meta bar */}
       <div className="dhyan-bottom-meta">
         <span className="dhyan-meta">
           SCROLL TO EXPLORE <b>↓</b>
